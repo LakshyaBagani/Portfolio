@@ -1,0 +1,62 @@
+/* =====================================================================
+   work.css — the frame every scrolling work page ("room") shares.
+   Only loaded on the work routes. Values are the reference rooms' own
+   (they size in px against a fixed 16px rem, so px is kept here).
+   ===================================================================== */
+:root{--wk-room:#FBFAF8;--wk-acc:var(--door,#6B4F4F)}
+html[data-mode="dark"]{--wk-room:#050505;--wk-acc:color-mix(in srgb,var(--door,#6B4F4F) 34%,#E8E4E0)}
+
+/* the room fades up out of a soft glow; inside the home page it stays covered until you have walked in */
+.glow{position:fixed;inset:0;pointer-events:none;z-index:55;background:var(--wk-room);animation:wkGlowOut .8s ease .15s forwards}
+@keyframes wkGlowOut{to{opacity:0;visibility:hidden}}
+html.embed .glow{animation:none;transition:opacity .45s ease,visibility 0s linear .45s}
+html.embed.in .glow{opacity:0;visibility:hidden}
+html.embed.out .glow{opacity:1;visibility:visible;transition:opacity .4s ease}
+@media (prefers-reduced-motion:reduce){.glow{display:none}}
+
+/* ---------- the header, set exactly like the reference room bar ---------- */
+html .hdr .hdr__in{max-width:1408px;padding:17.6px max(16px,env(safe-area-inset-right)) 17.6px max(16px,env(safe-area-inset-left));min-width:0}
+html .hdr.stuck .hdr__in{padding-block:12.8px}
+@media (min-width:1024px){html .hdr .hdr__in{padding-inline:88px}}
+.hdr .nav{gap:22.4px;font-size:16px}
+.hdr .nav button{font-weight:500}
+.hdr .nav [aria-current="page"]>span{opacity:1;text-decoration:underline;text-underline-offset:.35em;text-decoration-thickness:1px}
+.hdr .clock{gap:9.6px;padding:9.6px 14.4px;border-radius:999px;border-color:rgba(var(--fg-rgb),.12);background:none;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:14px;font-weight:500}
+.hdr .clock__lbl,.hdr .clock__sep,.hdr .clock__date{color:rgba(var(--fg-rgb),.68)}
+.hdr .clock__time{min-width:0;font-weight:700}
+.hdr .menu-btn{border-radius:999px;border-color:rgba(var(--fg-rgb),.12);background:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.hdr .menu-btn>span{height:44px;gap:8px;padding:0 16.8px 0 15.2px;font-size:15px;line-height:1;text-transform:none;letter-spacing:0}
+.hdr .menu-btn svg{font-size:17.6px}
+.hdr .menu-btn .word{display:inline}
+/* narrow: back on the left, menu on the right, no clock */
+@media (max-width:1199.98px){
+  html .hdr .hdr__right{flex:none;margin-left:auto;justify-content:flex-end}
+  .hdr .clock{display:none}
+  .hdr .menu-btn{order:99}
+}
+
+/* ---------- "Back to the doors" ---------- */
+.backd{order:-2;flex:none;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 17.6px 0 13.6px;
+  border:1px solid rgba(var(--fg-rgb),.14);border-radius:999px;background:rgba(var(--fg-rgb),.05);color:var(--foreground);
+  font:500 15px/1 var(--font);text-decoration:none;cursor:pointer;white-space:nowrap;
+  opacity:0;transform:translateX(-8px);transition:opacity .35s ease,transform .45s var(--e-soft),background .25s ease,border-color .25s ease}
+.backd.show{opacity:1;transform:none}
+.backd svg{width:16.8px;height:16.8px;transition:transform .35s var(--e-soft)}
+@media (hover:hover){.backd:hover{background:rgba(var(--fg-rgb),.1);border-color:rgba(var(--fg-rgb),.26)}.backd:hover svg{transform:translateX(-3px)}}
+.backd:focus-visible{outline:2px solid #C4B0B0;outline-offset:3px}
+/* wide: the full nav shows, and "back" floats in the bottom-left corner instead of taking bar space
+   (the same translucent pill, lifted off the page with a blur and a shadow) */
+@media (min-width:1200px){
+  .backd{position:fixed;left:max(24px,env(safe-area-inset-left));bottom:max(24px,calc(env(safe-area-inset-bottom) + 16px));top:auto;z-index:60;
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    box-shadow:0 12px 30px -12px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.08)}
+}
+@media (max-width:359.98px){.backd,.hdr .menu-btn>span{font-size:13px}.backd{padding:0 13.6px 0 11.2px}.hdr .menu-btn>span{padding:0 13.6px}}
+
+/* ---------- page frame + title ---------- */
+.wrap{max-width:1408px;margin:0 auto;padding:calc(var(--hdr0,73px) + 24px) max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
+@media (min-width:1024px){.wrap{padding-inline:88px}}
+@media (max-width:1199.98px){.wrap{padding-top:calc(var(--hdr0,79px) + 24px)}}
+.intro{display:flex;flex-direction:column;align-items:flex-start;gap:20px;padding-bottom:clamp(28px,4vw,44px);text-align:left}
+.intro h1{white-space:nowrap;font-size:clamp(34px,8.2vw,104px);font-weight:600;letter-spacing:-.025em;line-height:.95}
+.intro p{max-width:calc(52 * .665em);font-size:17px;line-height:1.55;color:rgba(var(--fg-rgb),.68)}

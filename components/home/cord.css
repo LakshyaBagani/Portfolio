@@ -1,0 +1,10 @@
+/* ---------- pull cord (light / dark switch) ---------- */
+.cord{position:fixed;top:0;right:0;width:min(100%,340px);height:520px;z-index:70;pointer-events:none;overflow:hidden}
+.cord__cv{position:absolute;inset:0;width:100%;height:100%}
+.cord__hit{position:absolute;left:0;top:0;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;pointer-events:auto;touch-action:none;cursor:grab;-webkit-tap-highlight-color:transparent}
+.cord__hit:active,.cord.dragging .cord__hit{cursor:grabbing}
+.cord__hit:focus-visible{outline:2px solid var(--accent);outline-offset:-10px}
+.cord.dragging{cursor:grabbing}
+/* hidden while you are inside a room (the doors add .away) */
+.cord{transition:opacity .4s ease}
+.cord.away{opacity:0;pointer-events:none}

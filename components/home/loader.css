@@ -1,0 +1,30 @@
+/* ---------- loader: the doors' colours stack up, one per discipline, then slide away to open the page ---------- */
+.loader{position:fixed;inset:0;z-index:120;overflow:hidden;color:#E8E4E0;--p:0;font-family:var(--font)}
+.ld__bg{position:absolute;inset:0;background:radial-gradient(38% 55% at 0% 72%,rgba(164,85,44,.26),transparent 70%),radial-gradient(40% 58% at 100% 70%,rgba(196,176,176,.16),transparent 72%),
+  radial-gradient(70% 60% at 50% 0%,rgba(107,92,92,.3),transparent 70%),#0D0C0C;transition:transform .85s cubic-bezier(.76,0,.24,1)}
+.loader.out .ld__bg{transform:translateY(-100%)}
+.ld__stack{--w:min(76vw,26rem);--h:calc(var(--w) * .27);--step:calc(var(--h) * .6);position:absolute;left:50%;top:47%;width:var(--w);height:calc(var(--h) + 5 * var(--step));translate:-50% -50%}
+@media (max-width:639.98px){.ld__stack{--w:min(78vw,20rem)}}
+.ld__pill{position:absolute;left:0;top:calc(var(--k) * var(--step));width:100%;height:var(--h);border-radius:999px;z-index:var(--k);
+  display:flex;align-items:flex-start;padding:calc(var(--h) * .2) 0 0 calc(var(--w) * .16);font-size:max(11px,calc(var(--w) * .036));font-weight:500;letter-spacing:.02em;
+  background:var(--c);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--c) 88%,#fff) 0%,var(--c) 22%,var(--c) 70%,color-mix(in srgb,var(--c) 82%,#000) 100%);color:var(--t);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 -1px 0 rgba(0,0,0,.25),0 calc(var(--h) * -.18) calc(var(--h) * .35) calc(var(--h) * -.12) rgba(0,0,0,.55);
+  opacity:0;transform:translateY(-1.6rem) scale(.96);transition:opacity .45s ease,transform .75s cubic-bezier(.16,1,.3,1)}
+.ld__pill.on{opacity:1;transform:none}
+.ld__pill span{opacity:.82}
+.loader.out .ld__pill{transition:transform .8s cubic-bezier(.7,0,.25,1) calc(var(--k) * 45ms),opacity .5s ease calc(.25s + var(--k) * 45ms);opacity:0;
+  transform:translateX(calc(var(--dir) * 115vw)) rotate(calc(var(--dir) * 4deg))}
+.ld__hud{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(1.25rem,4vw,3rem);transition:opacity .35s ease}
+.loader.out .ld__hud{opacity:0}
+.ld__top{display:flex;justify-content:space-between;align-items:center;font-size:.8125rem;font-weight:500;color:rgba(232,228,224,.7)}
+.ld__top b{font-weight:600;color:#E8E4E0}
+.ld__bot{display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem}
+.ld__num{font-size:clamp(3.5rem,9vw,7.5rem);font-weight:700;line-height:.85;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:#E8E4E0}
+.ld__num small{display:block;margin-bottom:.9rem;font-family:var(--mono);font-size:.6875rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(232,228,224,.62)}
+.ld__bar{width:min(30vw,14rem);height:2px;border-radius:2px;background:rgba(232,228,224,.14);overflow:hidden;margin-bottom:.5rem}
+.ld__bar i{display:block;height:100%;background:linear-gradient(90deg,#6B5C5C,#C4B0B0,#D6B26E);transform-origin:0 50%;transform:scaleX(var(--p))}
+@media (max-width:639.98px){.ld__top span:last-child{display:none}.ld__bar{width:34vw}}
+@media (prefers-reduced-motion:reduce){.ld__pill{transform:none;transition:opacity .3s ease}.loader.out .ld__pill{transform:none}.ld__bg{transition:opacity .4s ease}.loader.out .ld__bg{transform:none;opacity:0}}
+/* landing straight on a section (/work, /my-story, #about): no intro, not even for the first paint */
+body:has(main[data-initial="works"]) .loader,body:has(main[data-initial="about"]) .loader,body:has(#works:target) .loader,body:has(#about:target) .loader{display:none}

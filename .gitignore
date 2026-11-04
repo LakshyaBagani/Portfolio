@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.env*
+# reference recording (130 MB) — keep out of git
+therishithakor-walkthrough.mp4
+.shared-context
+# personal photo originals and resume headshots (the site uses public/img/)
+photos/

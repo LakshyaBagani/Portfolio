@@ -1,0 +1,93 @@
+/* =====================================================================
+   posters.css — the contribution prints, drawn on an 800×1000 sheet.
+   The sheet scales to whatever holds it (--k on the .art / .lb__art box).
+   ===================================================================== */
+.pz{position:absolute;left:0;top:0;width:800px;height:1000px;transform-origin:0 0;transform:scale(var(--k,.36));overflow:hidden;
+  display:flex;flex-direction:column;font-family:var(--font);text-align:left;letter-spacing:0;-webkit-font-smoothing:antialiased;
+  background:var(--pbg,#F4EFE7);color:var(--pfg,#1A1818)}
+.pz *{box-sizing:border-box}
+.pz .mono,.pz code{font-family:var(--mono)}
+.pz svg{display:inline-block;width:1em;height:1em;vertical-align:-.12em}
+
+/* cover: the project's poster */
+.pz--cover{padding:64px 60px 52px;background:radial-gradient(120% 70% at 100% 0%,color-mix(in srgb,var(--pacc,#a4552c) 22%,transparent),transparent 60%),var(--pbg,#F4EFE7)}
+.pz--cover.pz--ink{--pbg:#171616;--pfg:#EFE9E1;--pacc:#d38a5e}
+.pz-top{display:flex;justify-content:space-between;align-items:center;font-size:22px;font-weight:600;letter-spacing:.04em;opacity:.8}
+.pz-top .mono{font-size:21px}
+.pz-name{margin-top:90px;font-size:150px;font-weight:700;line-height:.86;letter-spacing:-.05em}
+.pz-name em{display:block;font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.02em;color:var(--pacc,#a4552c)}
+.pz-big{margin-top:auto;display:flex;align-items:flex-end;gap:22px;padding-bottom:30px;border-bottom:2px solid color-mix(in srgb,var(--pfg,#1A1818) 85%,transparent)}
+.pz-big b{font-size:210px;font-weight:700;line-height:.78;letter-spacing:-.06em;color:var(--pacc,#a4552c)}
+.pz-big span{max-width:300px;font-size:30px;font-weight:600;line-height:1.15;padding-bottom:6px}
+.pz-lines{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:24px;font-weight:500;opacity:.78}
+.pz-foot{display:flex;justify-content:space-between;margin-top:34px;font-family:var(--mono);font-size:17px;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
+
+/* a pull request / merge request page */
+.pz--pr{--pbg:#ffffff;--pfg:#1f2328;--line:#d1d9e0;--muted:#59636e;--merged:#8250df;padding:0}
+.pz--pr.gl{--pbg:#fbfafd;--pfg:#28272d;--line:#dcdcde;--muted:#626168;--merged:#1f75cb}
+.pz-h{display:flex;align-items:center;gap:14px;height:86px;padding:0 44px;border-bottom:1px solid var(--line);font-size:22px;color:var(--muted);background:color-mix(in srgb,var(--pfg,#1A1818) 3%,var(--pbg,#F4EFE7))}
+.pz-h .mono{font-weight:600;color:var(--pfg)}
+.pz-logo{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--pfg);color:var(--pbg);font-size:20px}
+.gl .pz-logo{border-radius:10px;background:#e24329;color:#fff}
+.pz-no{margin-left:auto;font-size:19px}
+.pz--pr h3{padding:40px 44px 0;font-size:46px;font-weight:600;line-height:1.12;letter-spacing:-.02em}
+.pz-meta{display:flex;align-items:center;gap:16px;padding:22px 44px 0;font-size:20px;color:var(--muted)}
+.pz-meta b{color:var(--pfg)}
+.pz-meta code{padding:3px 10px;border-radius:8px;background:color-mix(in srgb,var(--merged) 12%,transparent);color:var(--merged);font-size:18px}
+.pz-merged{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 20px;border-radius:999px;background:var(--merged,#8250df);color:#fff;font-size:21px;font-weight:600}
+.pz-labels{display:flex;gap:10px;padding:20px 44px 0}
+.pz-labels span{padding:6px 16px;border-radius:999px;font-size:17px;font-weight:600;background:color-mix(in srgb,var(--merged) 14%,transparent);color:var(--merged)}
+.pz-labels span+span{background:color-mix(in srgb,#1a7f37 14%,transparent);color:#1a7f37}
+.pz-tabs{display:flex;gap:34px;margin-top:30px;padding:0 44px;border-bottom:1px solid var(--line);font-size:20px;color:var(--muted)}
+.pz-tabs span{padding-bottom:16px}
+.pz-tabs span.on{color:var(--pfg);font-weight:600;box-shadow:0 -3px 0 #fd8c73 inset}
+.gl .pz-tabs span.on{box-shadow:0 -3px 0 #1f75cb inset}
+.pz-tabs i{font-style:normal;margin-left:6px;padding:1px 10px;border-radius:999px;background:color-mix(in srgb,var(--pfg,#1A1818) 8%,transparent);font-size:16px}
+.pz-diff{margin:30px 44px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-family:var(--mono);font-size:17px;line-height:1.75}
+.pz-file{display:flex;justify-content:space-between;gap:16px;padding:14px 18px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--pfg,#1A1818) 3%,var(--pbg,#F4EFE7));font-size:16px;font-weight:600}
+.pz-file span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pz-file em{font-style:normal;flex:none}.pz-file .g{color:#1a7f37}.pz-file .r{color:#cf222e}
+.pz-diff p{display:grid;grid-template-columns:52px 52px 1fr;white-space:pre;color:var(--pfg)}
+.pz-diff p i{font-style:normal;text-align:right;padding-right:12px;color:color-mix(in srgb,var(--pfg,#1A1818) 38%,transparent);font-size:14px;background:color-mix(in srgb,var(--pfg,#1A1818) 2.5%,transparent)}
+.pz-diff p span{padding-left:10px;overflow:hidden;text-overflow:ellipsis}
+.pz-diff p.add{background:#dafbe1}.pz-diff p.add i{background:#ccffd8}
+.pz-diff p.del{background:#ffebe9}.pz-diff p.del i{background:#ffd7d5}
+.pz-diff p.hunk{background:#ddf4ff;color:#59636e}.pz-diff p.hunk i{background:#c7e9ff}
+.pz-checks{margin-top:auto;padding:26px 44px 40px;display:flex;flex-direction:column;gap:12px;font-size:21px;font-weight:500}
+.pz-checks p{display:flex;align-items:center;gap:14px}
+.pz-checks b{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:#1a7f37;color:#fff;font-size:20px}
+
+/* a big number */
+.pz--stat{--pbg:#a4552c;--pfg:#FBF1EA;padding:64px 60px;justify-content:flex-end;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 2px,transparent 2px 22px),var(--pbg,#F4EFE7)}
+.pz-kick{font-family:var(--mono);font-size:20px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;opacity:.75;margin-bottom:auto}
+.pz-huge{font-size:290px;font-weight:700;line-height:.8;letter-spacing:-.07em}
+.pz-lab{margin-top:24px;font-size:44px;font-weight:600;letter-spacing:-.02em}
+.pz--stat ul{list-style:none;margin:44px 0 0;padding:30px 0 0;border-top:2px solid rgba(255,255,255,.35);display:flex;flex-direction:column;gap:16px;font-size:25px;font-weight:500}
+.pz--stat li{display:flex;align-items:center;gap:16px}
+.pz--stat li b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);font-size:18px}
+
+/* a review thread */
+.pz--thread{--pbg:#ffffff;--pfg:#1f2328;--line:#d1d9e0;--muted:#59636e;--merged:#8250df}
+.pz--thread.gl{--merged:#1f75cb}
+.pz-msgs{flex:1;padding:40px 44px 0;display:flex;flex-direction:column;gap:26px}
+.pz-msg{display:flex;gap:18px}
+.pz-av{flex:none;display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:#e6e1d9;color:#5b4c3f;font-style:normal;font-size:24px;font-weight:700}
+.pz-msg.me .pz-av{background:#a4552c;color:#fff}
+.pz-msg>div{flex:1;border:1px solid var(--line);border-radius:14px;padding:18px 22px;font-size:24px;line-height:1.4}
+.pz-msg.me>div{border-color:color-mix(in srgb,#a4552c 40%,var(--line));background:#fdf6f1}
+.pz-who{font-size:18px;color:var(--muted);margin-bottom:6px}.pz-who b{color:var(--pfg)}
+.pz-approve{display:flex;align-items:center;gap:14px;margin-top:6px;padding:18px 22px;border-radius:14px;background:#dafbe1;color:#1a7f37;font-size:22px;font-weight:600}
+.pz-approve b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#1a7f37;color:#fff;font-size:18px}
+.pz-end{padding:30px 44px 48px;display:flex;justify-content:center}
+.pz-end .pz-merged{height:64px;padding:0 34px;font-size:28px}
+
+/* a carousel slide */
+.pz--step{padding:60px 60px 56px;background:radial-gradient(90% 60% at 0% 100%,color-mix(in srgb,var(--pacc,#a4552c) 28%,transparent),transparent 70%),var(--pbg,#F4EFE7)}
+.pz--step .pz-top{opacity:.7}
+.pz-glyph-s{font-size:26px}
+.pz-glyph{margin-top:auto;font-size:250px;font-variant-numeric:tabular-nums;font-weight:700;line-height:.9;letter-spacing:-.05em;color:var(--pacc,#a4552c)}
+.pz--step h3{margin-top:30px;font-size:68px;font-weight:700;line-height:1;letter-spacing:-.035em}
+.pz--step>p{margin-top:24px;max-width:600px;font-size:28px;line-height:1.4;opacity:.8}
+.pz-dots{display:flex;gap:10px;margin-top:44px}
+.pz-dots i{width:44px;height:6px;border-radius:6px;background:currentColor;opacity:.22}.pz-dots i.on{opacity:1}

@@ -1,0 +1,134 @@
+/* =====================================================================
+   stack.css — template A: stacked project cards (reference: web-developer,
+   app-developer, ui-ux-designer). The desktop is a slightly side-on monitor,
+   the phone an iPhone turned slightly side-on.
+   ===================================================================== */
+:root{--wk-card:#F3F0EC;--wk-card-line:rgba(26,24,24,.08);
+  --wk-shadow:0 -1px 0 rgba(255,255,255,.6) inset,0 30px 60px -30px rgba(26,24,24,.35),0 -12px 40px -24px rgba(26,24,24,.25)}
+html[data-mode="dark"]{--wk-card:#232020;--wk-card-line:rgba(232,228,224,.08);
+  --wk-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 30px 60px -30px rgba(0,0,0,.8),0 -12px 40px -20px rgba(0,0,0,.7)}
+
+.stack{position:relative;padding-bottom:12vh}
+.card{position:sticky;top:calc(var(--nav-h,72px) + 16px + var(--i) * 14px);margin-bottom:6vh;border-radius:28px;background:var(--wk-card);box-shadow:var(--wk-shadow);
+  border:1px solid var(--wk-card-line);transform-origin:50% 0;will-change:transform;overflow:hidden}
+.card__in{display:grid;gap:28px;padding:28px;min-height:min(calc(100vh - var(--nav-h,72px) - 120px),720px)}
+@media (min-width:900px){
+  .card__in{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center;gap:40px;padding:48px 52px}
+  .card.flip .card__in{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+  .card.flip .card__info{order:2}
+}
+.card__dim{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;border-radius:inherit}
+.card__meta{display:flex;align-items:center;gap:12px;margin-bottom:22px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--wk-acc)}
+.card h2{font-size:clamp(30px,3.4vw,46px);font-weight:600;letter-spacing:-.02em;line-height:1.02;margin-bottom:10px}
+.card .sub{font-size:15px;font-weight:500;color:rgba(var(--fg-rgb),.7);margin-bottom:22px}
+.card .desc{font-size:16px;line-height:1.6;color:rgba(var(--fg-rgb),.75);max-width:calc(44 * .665em);margin-bottom:26px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.tags li{list-style:none;padding:7px 12px;border-radius:999px;border:1px solid rgba(var(--fg-rgb),.14);font-size:13px;font-weight:500;color:rgba(var(--fg-rgb),.8)}
+.live{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 20px;border-radius:999px;background:var(--foreground);color:var(--background);font-size:14px;font-weight:600;transition:transform .3s var(--e-soft)}
+.live:hover{transform:translateY(-2px)}
+.live svg{width:16px;height:16px}
+.note{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:rgba(var(--fg-rgb),.68)}
+.note::before{content:"";width:7px;height:7px;border-radius:50%;background:#7a8670}
+/* the app's own icon beside its name */
+.app{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.app .card__meta{margin-bottom:0}
+.app__icon{width:58px;height:58px;flex:none;display:grid;place-items:center;border-radius:13px;font:700 30px/1 var(--font);letter-spacing:-.04em;
+  box-shadow:0 8px 18px -10px rgba(26,24,24,.5),0 0 0 1px rgba(var(--fg-rgb),.06),inset 0 1px 0 rgba(255,255,255,.18)}
+
+/* ---------- the desktop: a slightly side-on monitor ---------- */
+.stage{position:relative;perspective:1900px;perspective-origin:50% 40%;padding:10px 0 28px}
+.mon{position:relative;transform-style:preserve-3d;transform:rotateY(-17deg) rotateX(4deg);transition:transform 1.2s var(--e-soft);margin-inline:auto;width:100%;max-width:720px}
+.card.flip .mon{transform:rotateY(17deg) rotateX(4deg)}
+.card:hover .mon{transform:rotateY(-12deg) rotateX(3deg)}
+.card.flip:hover .mon{transform:rotateY(12deg) rotateX(3deg)}
+.mon__body{position:relative;transform-style:preserve-3d;--mp:clamp(5px,1.3vw,11px);padding:var(--mp);border-radius:calc(var(--mp) + 8px);background:linear-gradient(160deg,#2a2828,#0d0c0c 60%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.12)}
+/* the monitor's thickness: an edge you see because it is turned */
+.mon__body::before{content:"";position:absolute;top:10px;bottom:10px;right:0;width:22px;transform-origin:100% 50%;transform:rotateY(-90deg);
+  background:linear-gradient(180deg,#bdb9b5,#8d8985 50%,#6f6b68);border-radius:0 6px 6px 0}
+.card.flip .mon__body::before{right:auto;left:0;transform-origin:0 50%;transform:rotateY(90deg)}
+.mon__screen{position:relative;aspect-ratio:16/10;border-radius:8px;overflow:hidden;background:#000;transform:translateZ(.5px)}
+.mon__screen video{border-radius:inherit;position:absolute;inset:0;width:100%;height:100%;object-fit:contain!important;display:block}
+.mon__screen.vid{aspect-ratio:var(--ar,16/10)}
+.mon__screen::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;
+  background:linear-gradient(118deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.04) 28%,transparent 42%),linear-gradient(0deg,rgba(0,0,0,.12),transparent 30%)}
+.mon__neck{position:relative;width:15%;height:clamp(40px,7vw,78px);margin:-2px auto 0;transform:translateZ(-30px);
+  background:linear-gradient(90deg,#8e8a86,#d9d5d0 45%,#b7b2ad 60%,#7e7a76);clip-path:polygon(8% 0,92% 0,100% 100%,0 100%)}
+.mon__foot{width:36%;height:12px;margin:0 auto;border-radius:3px 3px 8px 8px;transform:translateZ(-30px);
+  background:linear-gradient(180deg,#e5e1dc,#a9a49f);box-shadow:0 1px 0 rgba(255,255,255,.5) inset}
+.stage::after{content:"";position:absolute;left:18%;right:18%;bottom:14px;height:26px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(0,0,0,.35),transparent);filter:blur(6px);z-index:-1}
+html[data-mode="dark"] .stage::after{background:radial-gradient(closest-side,rgba(0,0,0,.8),transparent)}
+
+/* ---------- the phone: an iPhone turned slightly side-on ---------- */
+.card--phone .card__in{--w:clamp(210px,calc((100svh - var(--nav-h,72px) - 240px) * .5),320px);--sw:calc(var(--w) * .916)}
+.stage--phone{perspective:1600px;perspective-origin:50% 45%;display:grid;place-items:center;padding:6px 0 34px}
+.phone{position:relative;width:var(--w);transform-style:preserve-3d;transform:rotateY(-21deg) rotateX(6deg) rotateZ(1.2deg);transition:transform 1.2s var(--e-soft)}
+.card.flip .phone{transform:rotateY(21deg) rotateX(6deg) rotateZ(-1.2deg)}
+.card:hover .phone{transform:rotateY(-12deg) rotateX(3deg) rotateZ(.5deg)}
+.card.flip:hover .phone{transform:rotateY(12deg) rotateX(3deg) rotateZ(-.5deg)}
+/* titanium frame, then the black bezel, then the screen */
+.phone__body{position:relative;transform-style:preserve-3d;padding:calc(var(--w) * .012);border-radius:calc(var(--w) * .168);
+  background:linear-gradient(145deg,#e4e0db 0%,#8f8a85 22%,#5b5753 48%,#9d9893 74%,#e6e2dd 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 50px 80px -40px rgba(26,24,24,.55),0 18px 30px -18px rgba(26,24,24,.35)}
+html[data-mode="dark"] .phone__body{box-shadow:inset 0 0 0 1px rgba(255,255,255,.25),0 50px 80px -40px rgba(0,0,0,.9),0 18px 30px -18px rgba(0,0,0,.7)}
+/* the frame's thickness: an edge you see because the phone is turned */
+.phone__body::before{content:"";position:absolute;top:calc(var(--w) * .16);bottom:calc(var(--w) * .16);right:0;width:calc(var(--w) * .05);transform-origin:100% 50%;transform:rotateY(-90deg);
+  background:linear-gradient(180deg,#cfcac5,#8c8783 30%,#6d6965 70%,#b9b4af)}
+.card.flip .phone__body::before{right:auto;left:0;transform-origin:0 50%;transform:rotateY(90deg)}
+.phone__btn{position:absolute;width:calc(var(--w) * .014);border-radius:2px;background:linear-gradient(90deg,#6e6a66,#bdb8b3);transform:translateZ(-1px)}
+.phone__btn.l{left:calc(var(--w) * -.008)}.phone__btn.r{right:calc(var(--w) * -.008)}
+.phone__screen{position:relative;box-sizing:content-box;aspect-ratio:1180/2556;border:calc(var(--w) * .03) solid #050505;border-radius:calc(var(--w) * .156);overflow:hidden;background:#141414 center/cover no-repeat;transform:translateZ(.5px)}
+.phone__screen video{border-radius:calc(var(--w) * .126);position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.phone__screen::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;
+  background:linear-gradient(118deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.03) 30%,transparent 44%)}
+.island{position:absolute;z-index:4;left:34%;top:calc(var(--sw) * .028);width:32%;aspect-ratio:126/37;border-radius:999px;background:#000}
+.sbar{position:absolute;z-index:4;left:0;right:0;top:0;height:calc(var(--sw) * .15);display:flex;align-items:center;justify-content:space-between;
+  padding:0 calc(var(--sw) * .085) 0 calc(var(--sw) * .115);color:var(--sbar,#fff);font-size:calc(var(--sw) * .043);font-weight:600;letter-spacing:-.01em;pointer-events:none}
+.sbar svg{height:calc(var(--sw) * .036);width:auto;display:block}
+.sbar span:last-child{display:flex;align-items:center;gap:calc(var(--sw) * .014)}
+.stage--phone::after{left:50%;right:auto;bottom:10px;width:calc(var(--w) * 1.05);height:26px;transform:translateX(-50%);
+  background:radial-gradient(closest-side,rgba(0,0,0,.3),transparent);filter:blur(7px)}
+
+/* ---------- arriving ---------- */
+.card .card__info>*,.card .stage{transition:opacity .8s ease,transform 1s var(--e-soft)}
+.card:not(.seen) .card__info>*{opacity:0;transform:translateY(18px)}
+.card:not(.seen) .stage{opacity:0;transform:translateX(40px)}
+.card.flip:not(.seen) .stage{transform:translateX(-40px)}
+@media (max-width:899.98px){.card:not(.seen) .stage,.card.flip:not(.seen) .stage{transform:translateY(20px)}}
+.card .card__info>*:nth-child(2){transition-delay:.05s}.card .card__info>*:nth-child(3){transition-delay:.1s}
+.card .card__info>*:nth-child(4){transition-delay:.15s}.card .card__info>*:nth-child(5){transition-delay:.2s}.card .card__info>*:nth-child(6){transition-delay:.25s}
+
+@media (max-width:899.98px){
+  .card{top:calc(var(--nav-h,64px) + 10px + var(--i) * 10px);border-radius:22px}
+  /* phones: each card fits one screen, the device on top, the essentials below */
+  .card__in{padding:16px 18px 20px;min-height:auto;gap:4px;max-height:calc(100svh - var(--nav-h,64px) - 40px)}
+  .stage{order:-1;padding:4px 6% 18px}
+  .mon__neck{height:30px}
+  .card__meta{margin-bottom:8px;font-size:11px}
+  .card h2{font-size:26px;margin-bottom:4px}
+  .card .sub{font-size:13px;margin-bottom:10px}
+  .card .desc{font-size:14px;line-height:1.5;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .tags{display:none}
+  .live{height:44px;padding:0 18px;font-size:13px}
+  .mon,.card.flip .mon{transform:rotateY(-10deg) rotateX(3deg)}
+  .card.flip .mon__body::before{right:0;left:auto;transform-origin:100% 50%;transform:rotateY(-90deg)}
+  .card--phone .card__in{--w:clamp(150px,calc((100svh - var(--nav-h,64px) - 370px) * .47),230px)}
+  .stage--phone{padding:4px 6% 18px}
+  .phone,.card.flip .phone{transform:rotateY(-14deg) rotateX(4deg) rotateZ(.6deg)}
+  .card.flip .phone__body::before{right:0;left:auto;transform-origin:100% 50%;transform:rotateY(-90deg)}
+  .app{margin-bottom:10px;gap:12px}.app__icon{width:42px;height:42px;border-radius:10px;font-size:22px}
+}
+@media (prefers-reduced-motion:reduce){
+  .card .card__info>*,.card .stage{transition:none;opacity:1!important;transform:none!important}
+}
+
+/* a recording that is still buffering: a light sweep over its poster until it plays */
+.skel-buf{position:relative}
+.skel-buf::before{content:"";position:absolute;inset:0;z-index:6;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);background-size:220% 100%;animation:wkSkel 1.25s linear infinite}
+@keyframes wkSkel{from{background-position:120% 0}to{background-position:-100% 0}}
+
+/* ---------- a coded "recording": a fixed-size virtual screen, scaled to fit ---------- */
+.vs{position:absolute;left:0;top:0;transform-origin:0 0;transform:scale(var(--k,.5));overflow:hidden}
+[data-scr]:not(.playing) .vs *,[data-scr]:not(.playing) .vs{animation-play-state:paused!important}

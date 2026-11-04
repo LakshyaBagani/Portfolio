@@ -1,0 +1,113 @@
+/* ---------- my story: a timeline you scroll through naturally; the year and title stay beside it ---------- */
+.story{position:relative;z-index:1;background:#F4F1EE;border-top:1px solid rgba(26,24,24,.1);box-shadow:inset 0 1.75rem 2.25rem -1.75rem rgba(26,24,24,.14);--warm:0}
+html[data-mode="dark"] .story{background:#171515;border-top-color:rgba(232,228,224,.08);box-shadow:inset 0 1.75rem 2.25rem -1.75rem rgba(0,0,0,.6)}
+.story::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:var(--warm);
+  background:radial-gradient(60% 50% at 25% 40%,rgba(196,150,100,.12),transparent 70%),linear-gradient(180deg,transparent,rgba(170,125,80,.06))}
+/* the backdrop. Light mode: soft washes of colour bleeding in from the edges over a very fine diagonal weave,
+   the middle kept clean paper so the writing never fights the background. Dark mode: a fine dot grid. */
+.story{
+  background-image:
+    repeating-linear-gradient(42deg,rgba(26,24,24,.022) 0 1px,transparent 1px 12px),
+    linear-gradient(176deg,#FBF9F7 0%,#F7F4F1 54%,#F3EFEB 100%);
+  background-attachment:local,local}
+html[data-mode="dark"] .story{
+  background-image:radial-gradient(rgba(232,228,224,.055) 1px,transparent 1.4px);
+  background-size:1.6rem 1.6rem;background-position:center top;background-attachment:scroll}
+
+/* a soft light in the colour of the work each chapter was about (the doors' colours), changing chapter to chapter */
+.story__amb{position:sticky;top:0;z-index:0;display:block;height:100svh;margin-bottom:-100svh;pointer-events:none;overflow:hidden;--aa:2.3;--p1:0% 14%;--p2:100% 86%}
+html[data-mode="dark"] .story__amb{--aa:1.1;--p1:24% 44%;--p2:80% 74%}
+/* light mode: the colour stays out towards the edges and a soft light sits over the middle */
+.story__amb::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(54% 66% at 50% 50%,rgba(252,250,248,.9) 0%,rgba(252,250,248,.66) 46%,transparent 80%)}
+html[data-mode="dark"] .story__amb::after{display:none}
+.story__amb i{position:absolute;inset:-8%;opacity:0;transition:opacity 1.2s ease;
+  background:radial-gradient(46% 54% at var(--p1),rgba(var(--c1),calc(.34 * var(--aa))),transparent 74%),radial-gradient(42% 48% at var(--p2),rgba(var(--c2),calc(.26 * var(--aa))),transparent 74%);
+  animation:ambDrift 24s ease-in-out infinite alternate;animation-play-state:paused}
+/* light mode: the colours as soft light on paper; dark mode: the doors' own deeper colours glowing in the dark */
+.story__amb i:nth-child(1){--c1:226,122,58;--c2:92,132,202}
+.story__amb i:nth-child(2){--c1:226,122,58;--c2:206,138,150}
+.story__amb i:nth-child(3){--c1:132,174,104;--c2:92,132,202}
+.story__amb i:nth-child(4){--c1:178,106,148;--c2:226,122,58}
+.story__amb i:nth-child(5){--c1:226,178,70;--c2:178,142,132}
+html[data-mode="dark"] .story__amb i:nth-child(1){--c1:164,85,44;--c2:60,82,120}
+html[data-mode="dark"] .story__amb i:nth-child(2){--c1:164,85,44;--c2:196,176,176}
+html[data-mode="dark"] .story__amb i:nth-child(3){--c1:122,134,112;--c2:60,82,120}
+html[data-mode="dark"] .story__amb i:nth-child(4){--c1:74,53,64;--c2:164,85,44}
+html[data-mode="dark"] .story__amb i:nth-child(5){--c1:214,178,110;--c2:107,92,92}
+.story[data-ch="0"] .story__amb i:nth-child(1),.story[data-ch="1"] .story__amb i:nth-child(2),.story[data-ch="2"] .story__amb i:nth-child(3),
+.story[data-ch="3"] .story__amb i:nth-child(4),.story[data-ch="4"] .story__amb i:nth-child(5){opacity:1;animation-play-state:running}
+@keyframes ambDrift{from{transform:translate3d(-2%,-1.5%,0) scale(1)}to{transform:translate3d(2.5%,2%,0) scale(1.06)}}
+html.lite .story__amb i{animation:none}
+@media (prefers-reduced-motion:reduce){.story__amb i{animation:none;transition:none}}
+
+/* ---- the left column: title, the year odometer and the meter, kept beside the timeline ---- */
+.story__track,.story__pin{position:relative}
+.story__pin{padding:7rem 0 2.5rem}
+.story__stage{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:3.5rem;align-items:start;width:100%}
+.story__clock{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;margin-top:-7rem;padding-top:3rem}
+.story__bg{position:absolute;left:-40%;right:-40%;top:0;height:100%;width:180%;z-index:-1;pointer-events:none;
+  -webkit-mask:radial-gradient(closest-side,#000 55%,transparent);mask:radial-gradient(closest-side,#000 55%,transparent)}
+.story__h{margin-top:.6rem;font-size:2.4rem;font-weight:700;line-height:.98;letter-spacing:-.035em}
+@media (min-width:1024px){.story__h{font-size:3.4rem}}
+.story__yr{display:flex;margin:1.5rem 0 0 -.04em;font-size:clamp(5.5rem,11.5vw,11.5rem);font-weight:700;line-height:1;letter-spacing:-.06em;font-variant-numeric:tabular-nums;color:var(--foreground)}
+.dg{display:block;height:1em;overflow:hidden;padding-right:.02em}
+.dg__c{display:flex;flex-direction:column;transform:translateY(calc(var(--d,0) * -1em));transition:transform .9s cubic-bezier(.65,0,.2,1)}
+.dg:nth-child(2) .dg__c{transition-delay:.04s}.dg:nth-child(3) .dg__c{transition-delay:.08s}.dg:nth-child(4) .dg__c{transition-delay:.12s}
+.dg__c i{display:block;height:1em;font-style:normal;text-align:center}
+.story__when{margin-top:.9rem;font-family:var(--mono);font-size:.8125rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#5C4242}
+html[data-mode="dark"] .story__when{color:#D9C6C6}
+.story__meter{display:flex;align-items:center;gap:.6rem;margin-top:1.5rem;font-size:.875rem;font-weight:600;color:var(--foreground);font-variant-numeric:tabular-nums;width:100%}
+.story__of{color:rgba(var(--fg-rgb),.55)}
+.story__rw{width:1.25rem;height:1.25rem;color:rgba(var(--fg-rgb),.6);transform:rotate(calc(var(--p,0) * -720deg))}
+.story__bar{position:relative;flex:0 1 11rem;height:2px;margin-left:.6rem;border-radius:2px;background:rgba(var(--fg-rgb),.12);overflow:hidden}
+.story__bar b{position:absolute;inset:0;background:var(--foreground);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+
+/* ---- the chapters, in normal flow: the line runs beside them and the dot travels it as you scroll ---- */
+.story__line{position:relative;padding-top:24vh;padding-bottom:4vh}
+.story__list{position:relative;list-style:none;margin:0;padding:0 0 0 2.75rem}
+.story__rail{position:absolute;left:.45rem;top:var(--r0,0);height:var(--rh,0);width:2px;border-radius:2px;background:rgba(var(--fg-rgb),.14)}
+/* the dot rides the line on the browser's own scrolling (sticky), so it never shakes; its track reaches a dot's
+   radius past each end of the line, so at the very start and end the dot sits whole on the line's tip */
+.story__dtrack{position:absolute;left:calc(.45rem + 1px - 1.25rem);width:2.5rem;top:calc(var(--r0,0px) - 1rem);height:calc(var(--rh,0px) + 2rem);padding:.45rem 0;z-index:2;overflow:visible;pointer-events:none}
+.story__dot{position:sticky;display:block;top:calc(50svh - .55rem);margin:0 auto;width:1.1rem;height:1.1rem;border-radius:50%;z-index:2;
+  background:var(--foreground);box-shadow:0 0 0 .4rem rgba(var(--fg-rgb),.08);transition:background .4s,box-shadow .4s}
+/* the stretch of line already travelled, drawn as a tail above the dot in its own track that stops exactly at the line's ends */
+.story__ttrack{position:absolute;left:calc(.45rem + 1px - 1.25rem);width:2.5rem;top:var(--r0,0);height:var(--rh,0);overflow:clip;pointer-events:none;z-index:1}
+.story__tail{position:sticky;display:block;top:50svh;width:2px;height:0;margin:0 auto}
+.story__tail::before{content:"";position:absolute;left:0;bottom:0;width:2px;height:300vh;background:var(--foreground)}
+.story.is-now .story__dot{background:#7FB069;box-shadow:0 0 0 .45rem rgba(127,176,105,.18)}
+.ch{position:relative;padding:3rem 0;opacity:.52;transition:opacity .45s ease}
+.ch.on{opacity:1}
+.ch__date{font-family:var(--mono);font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(var(--fg-rgb),.66);margin-bottom:.7rem}
+.ch__t{font-size:1.9rem;font-weight:600;line-height:1.08;letter-spacing:-.02em;margin-bottom:.35rem}
+.ch__org{font-size:1.0625rem;font-weight:500;color:rgba(var(--fg-rgb),.7);margin-bottom:1rem}
+.ch__b{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem;max-width:46ch}
+.ch__b li{position:relative;padding-left:1.1rem;font-size:1rem;line-height:1.55;color:rgba(var(--fg-rgb),.78)}
+.ch__b li::before{content:"";position:absolute;left:0;top:.72em;width:.45rem;height:1.5px;background:rgba(var(--fg-rgb),.45)}
+html:not([data-mode="dark"]) .ch__b li{color:rgba(var(--fg-rgb),.9)}
+html:not([data-mode="dark"]) .ch__org{color:rgba(var(--fg-rgb),.82)}
+html:not([data-mode="dark"]) .ch__date{color:rgba(var(--fg-rgb),.78)}
+@media (min-width:1280px){.ch__t{font-size:2.15rem}}
+
+/* phones: title and year pin to the top, the chapters scroll under them */
+@media (max-width:767.98px){
+  .story__pin{padding:0 0 1.5rem}
+  .story__stage{grid-template-columns:1fr;gap:0}
+  .story__clock{top:0;height:auto;margin:0 -1.25rem;padding:calc(var(--hdr-h,4.4rem) + 1rem) 1.25rem .9rem;z-index:3;justify-content:flex-start;
+    background:#F4F1EE;border-bottom:1px solid rgba(26,24,24,.1);box-shadow:0 10px 16px -12px rgba(26,24,24,.25)}
+  html[data-mode="dark"] .story__clock{background:#171515;border-bottom-color:rgba(232,228,224,.08);box-shadow:0 10px 16px -12px rgba(0,0,0,.7)}
+  .story__bg{display:none}
+  .story__clock .eyebrow{display:none}
+  .story__h{margin-top:0;font-size:1.6rem}
+  .story__yr{margin-top:.35rem;font-size:clamp(3.4rem,17vw,4.5rem)}
+  .story__when{margin-top:.25rem;font-size:.6875rem}
+  .story__meter{margin-top:.5rem;font-size:.8125rem}
+  .story__line{padding-top:1rem;padding-bottom:6vh}
+  .story__list{padding-left:2.1rem}
+  .ch{padding:1.75rem 0}
+  .ch__t{font-size:1.45rem}
+  .ch__org{font-size:.9375rem;margin-bottom:.6rem}
+  .ch__b li{font-size:.9375rem}
+}
+@media (prefers-reduced-motion:reduce){.ch{opacity:1}.dg__c{transition:none}.story__bg{display:none}}

@@ -1,0 +1,77 @@
+/* =====================================================================
+   hung.css — template B: prints hanging on a line, one line per project,
+   each in its own colours (reference: graphic-designer). Scrolling down walks
+   you along the line; click a print to see it up close.
+   ===================================================================== */
+.intro .how{display:inline-flex;align-items:center;gap:10px;margin-top:8px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--wk-acc)}
+.intro .how i{display:block;width:34px;height:1px;background:currentColor;opacity:.6}
+
+.worlds{position:relative}
+.world{position:relative;height:var(--h,300vh)}
+.pin{position:sticky;top:var(--nav-h,64px);height:calc(100svh - var(--nav-h,64px));overflow:hidden;background:var(--wbg);color:var(--wfg);
+  display:flex;flex-direction:column;transition:background .6s ease,color .6s ease}
+.w-head{position:relative;z-index:3;display:grid;gap:10px;padding:clamp(18px,4vh,44px) max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));max-width:1408px;width:100%;margin:0 auto}
+@media (min-width:1024px){.w-head{padding-inline:88px;grid-template-columns:auto 1fr;align-items:end;column-gap:56px}}
+.w-kicker{grid-column:1/-1;display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--wacc)}
+.w-kicker i{display:block;width:28px;height:1px;background:currentColor}
+.w-name{font-family:var(--font);font-weight:700;font-size:clamp(40px,6.4vw,92px);line-height:.92;letter-spacing:-.04em;white-space:nowrap}
+.w-name em{font-style:normal;opacity:.55}
+.w-desc{max-width:calc(46 * .665em);font-size:15.5px;line-height:1.55;opacity:.78}
+.w-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.w-tags li{list-style:none;padding:6px 11px;border-radius:999px;border:1px solid color-mix(in srgb,var(--wfg) 22%,transparent);font-size:12.5px;font-weight:500}
+
+/* the line, the pegs and the prints */
+.w-line{position:relative;flex:1;min-height:0}
+.track{position:absolute;left:0;top:clamp(26px,5vh,54px);display:flex;align-items:flex-start;gap:clamp(22px,3vw,46px);padding-inline:max(16px,7vw);will-change:transform}
+.track::before{content:"";position:absolute;left:-100vw;right:-100vw;top:9px;height:1.5px;background:color-mix(in srgb,var(--wfg) 55%,transparent);
+  box-shadow:0 5px 6px -3px rgba(0,0,0,.25)}
+.print{position:relative;flex:none;height:var(--ph);transform-origin:50% 0;will-change:transform;padding-top:2px}
+.print .peg{position:absolute;left:50%;top:-2px;width:14px;height:30px;margin-left:-7px;z-index:2;border-radius:3px 3px 2px 2px;
+  background:linear-gradient(90deg,#b98d5c,#d9b384 45%,#a97d4f);box-shadow:0 2px 4px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.08)}
+.print .peg::after{content:"";position:absolute;left:3px;right:3px;top:11px;height:3px;border-radius:2px;background:#8a8580;box-shadow:0 1px 0 rgba(255,255,255,.4)}
+.paper{display:block;height:100%;margin-top:14px;padding:clamp(5px,.5vw,8px);background:#fbfaf7;border-radius:2px;
+  box-shadow:0 1px 1px rgba(0,0,0,.12),0 24px 40px -18px rgba(0,0,0,.45),0 50px 80px -40px rgba(0,0,0,.35);transition:transform .45s var(--e-soft),box-shadow .45s ease;cursor:zoom-in}
+.paper .art{position:relative;display:block;height:100%;width:var(--aw,320px);overflow:hidden;background:#ddd}
+.print.dark .paper{background:#151414}
+.print:hover .paper,.paper:focus-visible{transform:translateY(-6px) scale(1.025);box-shadow:0 1px 1px rgba(0,0,0,.12),0 34px 54px -18px rgba(0,0,0,.5),0 60px 90px -40px rgba(0,0,0,.4)}
+/* a carousel hangs as a little stack of prints */
+.print.deck .paper{position:relative}
+.print.deck .paper::before,.print.deck .paper::after{content:"";position:absolute;inset:0;z-index:-1;background:#efece6;border-radius:2px;box-shadow:0 10px 20px -10px rgba(0,0,0,.4)}
+.print.deck .paper::before{transform:translate(9px,7px) rotate(2.2deg)}
+.print.deck .paper::after{transform:translate(17px,13px) rotate(4.2deg);background:#e4e0d8}
+.print .badge{position:absolute;z-index:3;left:clamp(10px,1vw,14px);bottom:clamp(10px,1vw,14px);padding:6px 10px;border-radius:999px;background:rgba(10,10,10,.82);color:#fff;
+  font-size:11.5px;font-weight:600;letter-spacing:.02em;pointer-events:none;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.w-foot{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:center;gap:16px;padding:0 max(16px,env(safe-area-inset-right)) clamp(14px,2.6vh,26px) max(16px,env(safe-area-inset-left));max-width:1408px;margin:0 auto}
+@media (min-width:1024px){.w-foot{padding-inline:88px}}
+.w-bar{flex:1;height:2px;border-radius:2px;background:color-mix(in srgb,var(--wfg) 16%,transparent);overflow:hidden}
+.w-bar i{display:block;height:100%;width:100%;background:var(--wacc);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+.w-hint{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.6;white-space:nowrap}
+
+/* the last line is dark: a hairline keeps the footer reading as its own section */
+.hung-dark ~ .sfw .sf{box-shadow:inset 0 1px 0 rgba(232,228,224,.12)}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:90;display:grid;grid-template-rows:auto 1fr auto;background:rgba(12,11,11,.94);color:#fff;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s linear .35s;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-family:var(--font)}
+.lb.open{opacity:1;visibility:visible;transition:opacity .35s ease}
+.lb__top{display:flex;justify-content:space-between;align-items:center;padding:16px max(16px,3vw)}
+.lb__t{font-size:14px;font-weight:600}.lb__t span{opacity:.55;font-weight:500;margin-left:10px}
+.lb__x{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.2);font-size:20px;line-height:1;color:#fff}
+.lb__stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:0;padding:0 max(16px,7vw)}
+.lb__art{position:relative;overflow:hidden;border-radius:3px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);animation:lbIn .35s var(--e-soft)}
+@keyframes lbIn{from{opacity:0;transform:scale(.985)}}
+.lb__nav{position:absolute;top:50%;width:52px;height:52px;margin-top:-26px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);font-size:20px;color:#fff;z-index:2}
+.lb__nav:hover{background:rgba(255,255,255,.14)}
+.lb__nav.prev{left:max(12px,2vw)}.lb__nav.next{right:max(12px,2vw)}
+.lb__dots{display:flex;justify-content:center;gap:6px;padding:16px;flex-wrap:wrap}
+.lb__dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25)}.lb__dots i.on{background:#fff}
+@media (max-width:767.98px){.lb__nav{display:none}.lb__stage{padding:0 12px}}
+
+@media (max-width:767.98px){
+  .w-head{gap:6px}
+  .w-name{font-size:clamp(34px,11vw,52px);white-space:normal}
+  .w-desc{font-size:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .w-tags{display:none}
+  .track{gap:22px;padding-inline:20px}
+}
+@media (prefers-reduced-motion:reduce){.paper,.lb__art{transition:none;animation:none}}

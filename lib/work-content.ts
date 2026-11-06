@@ -12,11 +12,13 @@
 export type MockId =
   | "ds-exporters" | "ds-throughput" | "ds-ray" | "ds-oom"
   | "fs-elitedocs" | "fs-office" | "fs-trackaroo"
-  | "ai-envs" | "ai-personas" | "ai-replica";
+  | "ai-envs" | "ai-personas" | "ai-replica"
+  | "web-galla" | "web-elitedocs" | "web-oneprompt" | "web-trip" | "web-cafe";
 
 export type Media =
   | { mock: MockId }
-  | { video: string; poster?: string; ar?: string; bg?: string; fit?: "contain" | "cover" };
+  /** sbar: colour of the phone frame's status-bar clock and icons over the recording (default white) */
+  | { video: string; poster?: string; ar?: string; bg?: string; fit?: "contain" | "cover"; sbar?: string };
 
 export type Project = {
   kind: string; title: string; sub: string; desc: string; tags: string[];
@@ -63,7 +65,7 @@ const GH = "https://github.com/LakshyaBagani";
    0 · Distributed Systems
    ===================================================================== */
 const distributed: StackPage = {
-  template: "stack", door: 0, title: "Distributed Systems",
+  template: "stack", door: 3, title: "Distributed Systems",
   intro: "Production pipelines and the clusters behind them: exporters that move tens of terabytes a day, Ray clusters that boot in minutes, and the tuning that keeps a 2 PB corpus moving.",
   projects: [
     {
@@ -96,8 +98,9 @@ const distributed: StackPage = {
 /* =====================================================================
    1 · Full-Stack
    ===================================================================== */
-const fullstack: StackPage = {
-  template: "stack", door: 1, title: "Full-Stack",
+/** earlier Full-Stack page (Office replicas, Trackaroo): not behind a door right now, kept for reuse */
+export const fullstack: StackPage = {
+  template: "stack", door: 0, title: "Full-Stack",
   intro: "Products built end to end: the API, the auth and the payments, through to the last pixel of the interface and how fast it loads.",
   projects: [
     {
@@ -123,12 +126,70 @@ const fullstack: StackPage = {
 };
 
 /* =====================================================================
-   2 · AI Environments
+   0 · Web Developer — web applications only, every preview on a monitor.
+   Galla plays a real recording (public/work/web/galla.mp4, 1440×900). The
+   others are coded stand-ins (components/work/screens/web.tsx) until their
+   recordings exist: drop the file in public/work/web/ and set
+   media: { video: "/work/web/<name>.mp4", poster: "/work/web/<name>.jpg" }.
+   ===================================================================== */
+const webdev: StackPage = {
+  template: "stack", door: 0, title: "Web Development",
+  intro: "Web applications built end to end: the API, the auth and the payments, through to the last pixel of the interface and how fast it loads.",
+  projects: [
+    {
+      kind: "Product · Wholesale trade", title: "Galla", sub: "Voice billing & order booking",
+      desc: "Wholesale traders speak an order in Hindi, English or Hinglish and watch the bill fill itself in: products matched, quantities and rates set, stock and the customer's balance updated. Around billing it runs the order book, deliveries, purchases, credit ledgers and reports, for many firms on one login.",
+      tags: ["React", "Spring Boot", "PostgreSQL", "Sarvam AI", "OpenAI", "AWS"], device: "mon",
+      media: { video: "/work/web/galla.mp4", poster: "/work/web/galla.jpg", ar: "16 / 10", bg: "#f7f5f1" },
+      link: { href: "https://getgalla.in", label: "Visit live site" },
+    },
+    {
+      kind: "Personal project · Health", title: "EliteDocs", sub: "Doctor consultations, booking to prescription",
+      desc: "Patients find a doctor by specialty, book a slot and meet them on a WebRTC video call with live chat. After the call the doctor writes the diagnosis and prescription, and the patient can leave a review. It runs on a Spring Boot API with JWT auth, patient and doctor roles, and 50+ endpoints.",
+      tags: ["React", "TypeScript", "Spring Boot", "PostgreSQL", "WebRTC"], device: "mon",
+      media: { video: "/work/web/elitedocs.mp4", poster: "/work/web/elitedocs.jpg", ar: "16 / 10", bg: "#f5f8ff" },
+      link: { href: "https://github.com/LakshyaBagani/EliteDocs", label: "View on GitHub" },
+    },
+    {
+      kind: "Personal project · Social", title: "One Prompt", sub: "One prompt, posted everywhere",
+      desc: "Write one idea and AI drafts a post for each network, within its character limit: LinkedIn, X, Threads, Instagram and Reddit. Connect accounts once with OAuth, edit the drafts and publish to all of them in one click. Post history and plan quotas run on an Express, Prisma and JWT API.",
+      tags: ["React", "TypeScript", "Express", "Prisma", "OAuth", "OpenRouter"], device: "mon",
+      media: { video: "/work/web/oneprompt.mp4", poster: "/work/web/oneprompt.jpg", ar: "16 / 10", bg: "#0c1018" },
+      link: { href: "https://github.com/LakshyaBagani/ONE_PROMPT_BACKEND", label: "View on GitHub" },
+    },
+    {
+      kind: "Personal project · Travel", title: "AI Trip Generator", sub: "Gemini-planned itineraries",
+      desc: "Pick a destination, the number of days, a budget and who's travelling, and Gemini plans the trip: hotels with prices and ratings, then places to visit day by day, with photos from Google Places. Sign in with Google, and every trip is saved to Firestore under My Trips.",
+      tags: ["React", "Gemini API", "Firestore", "Google Places", "Google OAuth"], device: "mon",
+      media: { video: "/work/web/trip.mp4", poster: "/work/web/trip.jpg", ar: "16 / 10", bg: "#eef2ff" },
+      link: { href: "https://github.com/LakshyaBagani/AI_TRIP_GENERATOR", label: "View on GitHub" },
+    },
+    {
+      kind: "Personal project · Food", title: "Cafe Chain", sub: "Ordering across a chain of cafés",
+      desc: "Students pick a campus outlet, fill a cart, order for takeaway or room delivery and track the order. Admins move each order from Pending to Delivered, run offers, and manage menus, wallets, weekly meal plans and analytics across the chain. It runs on an Express, Prisma and Supabase API with JWT auth.",
+      tags: ["React", "TypeScript", "Express", "Prisma", "Supabase"], device: "mon",
+      media: { video: "/work/web/cafechain.mp4", poster: "/work/web/cafechain.jpg", ar: "16 / 10", bg: "#fff8f0" },
+      link: { href: "https://cafe-chain.vercel.app", label: "Visit live site" },
+    },
+  ],
+};
+
+/* =====================================================================
+   1 · App Development — Galla's Android app plays a real recording from
+   the emulator (public/work/app/galla.mp4). The RL environment cards
+   after it are still the earlier AI Environments work.
    ===================================================================== */
 const aienv: StackPage = {
-  template: "stack", door: 2, title: "AI Environments",
-  intro: "Reinforcement-learning environments for frontier AI labs: realistic apps, personas and tasks where models learn to do real work, and the benchmarks that measure it.",
+  template: "stack", door: 1, title: "App Development",
+  intro: "Apps for the phone in someone's hand: voice and touch first, native where it matters, from printing a receipt to sharing a bill, and quick enough for a busy shop counter.",
   projects: [
+    {
+      kind: "Product · Android app", title: "Galla", sub: "Voice billing on Android",
+      desc: "Tap the mic, say the order in Hindi, English or Hinglish, and the bill fills in as you speak. Pick the customer, settle it in cash, UPI, part or due with a reminder, and it lands in the bill ledger. A Tauri 2 app with a Kotlin plugin for 80 mm receipt printing, sharing bill PDFs to WhatsApp, push notifications and self-updates.",
+      tags: ["Android", "Tauri 2", "Kotlin", "Rust", "React", "Sarvam AI"], device: "phone",
+      media: { video: "/work/app/galla.mp4", poster: "/work/app/galla.jpg", bg: "#f7f5f1", sbar: "#1b1b1b" },
+      link: { href: "https://getgalla.in", label: "Visit live site" },
+    },
     {
       kind: "InterviewBit · Frontier labs", title: "RL environments", sub: "12+ environments across 3 benchmark suites",
       desc: "Designed and built 12+ reinforcement-learning environments for frontier AI labs, spread across three benchmark suites, each a working app with tasks for an agent to complete and checks that score its run.",
@@ -155,7 +216,7 @@ const aienv: StackPage = {
    ===================================================================== */
 const J = "jenkinsci/jenkins", M = "mailman/postorius";
 const opensource: HungPage = {
-  template: "hung", door: 3, title: "Open Source",
+  template: "hung", door: 2, title: "Open Source",
   intro: "Fixes merged upstream in two long-running projects. Each project hangs on its own line, in its own colours: scroll to walk along it, click any card to read it up close.",
   how: "Scroll to walk the line",
   worlds: [
@@ -268,4 +329,6 @@ const toolbox: WallPage = {
   ],
 };
 
-export const WORK: WorkContent[] = [distributed, fullstack, aienv, opensource, toolbox];
+// indexed by door: 0 Web Developer · 1 App Developer · 2 Open Source · 3 DevOps · 4 Toolbox (secret)
+// (pages behind doors 1 and 3 still carry the earlier content until it is rewritten)
+export const WORK: WorkContent[] = [webdev, aienv, opensource, distributed, toolbox];

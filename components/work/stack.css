@@ -22,8 +22,19 @@ html[data-mode="dark"]{--wk-card:#232020;--wk-card-line:rgba(232,228,224,.08);
 .card h2{font-size:clamp(30px,3.4vw,46px);font-weight:600;letter-spacing:-.02em;line-height:1.02;margin-bottom:10px}
 .card .sub{font-size:15px;font-weight:500;color:rgba(var(--fg-rgb),.7);margin-bottom:22px}
 .card .desc{font-size:16px;line-height:1.6;color:rgba(var(--fg-rgb),.75);max-width:calc(44 * .665em);margin-bottom:26px}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
-.tags li{list-style:none;padding:7px 12px;border-radius:999px;border:1px solid rgba(var(--fg-rgb),.14);font-size:13px;font-weight:500;color:rgba(var(--fg-rgb),.8)}
+/* row spacing comes from the tags' own 4px margins (the list's -4px top cancels the first row's), so a zero-height break row adds no gap */
+.tags{display:flex;flex-wrap:wrap;column-gap:8px;margin:-4px 0 24px}
+/* at most four tags to a row: from 1280px a fifth would fit, so a full-width break goes after the 4th; narrower columns already wrap at 4 or fewer.
+   A phone card's text column is wider (the phone takes less room than a monitor), so there a fifth fits from 900px, where tags first show. */
+@media (min-width:1280px){
+  .tags:has(li:nth-child(5))::before{content:"";order:1;flex-basis:100%}
+  .tags li:nth-child(n+5){order:2}
+}
+@media (min-width:900px){
+  .card--phone .tags:has(li:nth-child(5))::before{content:"";order:1;flex-basis:100%}
+  .card--phone .tags li:nth-child(n+5){order:2}
+}
+.tags li{list-style:none;margin-block:4px;padding:7px 12px;border-radius:999px;border:1px solid rgba(var(--fg-rgb),.14);font-size:13px;font-weight:500;color:rgba(var(--fg-rgb),.8)}
 .live{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 20px;border-radius:999px;background:var(--foreground);color:var(--background);font-size:14px;font-weight:600;transition:transform .3s var(--e-soft)}
 .live:hover{transform:translateY(-2px)}
 .live svg{width:16px;height:16px}

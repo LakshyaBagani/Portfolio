@@ -26,14 +26,14 @@ const garamond = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lakshyabagani.com"),
-  title: "Lakshya Bagani — Backend, Distributed Systems & Full-Stack Engineer",
+  title: "Lakshya Bagani — Web & App Developer, Open Source, DevOps",
   description:
-    "Lakshya Bagani builds production data pipelines, distributed systems on Ray and AWS, full-stack products and RL environments for frontier AI labs. Based in Bengaluru, India.",
+    "Lakshya Bagani builds web and mobile apps end to end, contributes to open source (Jenkins, GNU Mailman) and runs the infrastructure behind them on AWS, Docker and Ray. Based in Bengaluru, India.",
   authors: [{ name: "Lakshya Bagani" }],
   openGraph: {
     type: "profile",
-    title: "Lakshya Bagani — Backend, Distributed Systems & Full-Stack Engineer",
-    description: "Production pipelines, distributed systems, full-stack products and RL environments.",
+    title: "Lakshya Bagani — Web & App Developer, Open Source, DevOps",
+    description: "Web and app development, open source contributions and DevOps.",
   },
 };
 

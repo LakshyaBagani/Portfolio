@@ -19,8 +19,10 @@ export const SITE = {
 };
 export const email = () => SITE.emailParts.join("@");
 
-/** the flip calendar under "I am a" */
-export const ROLES = ["Backend Engineer", "Full-Stack Developer", "Systems Engineer", "AI Env Builder", "Open Sourcerer"];
+/** the flip calendar under "I am a" — one role per door, in door order */
+export const ROLES = ["Web Developer", "App Developer", "Open Source Contributor", "DevOps Engineer"];
+/** "a" or "an" for the role on the calendar */
+export const article = (word: string) => (/^[aeiou]/i.test(word) ? "an" : "a");
 
 export type Door = {
   slug: string; nav: string; plate: string; title: string; color: string; colorDk: string;
@@ -29,24 +31,24 @@ export type Door = {
 /** the five doors; index 4 is the secret one, revealed only by the footer / menu link */
 export const DOORS: Door[] = [
   {
-    slug: "distributed-systems", nav: "Distributed Systems", plate: "Systems Engineer", title: "Distributed Systems",
-    color: "#22304a", colorDk: "#1c2840", tagline: "Pipelines that move petabytes",
-    points: ["Ray clusters at scale", "AWS EC2 & pre-built AMIs", "Throughput & memory tuning", "Redis & FastAPI services", "Production export pipelines"],
-  },
-  {
-    slug: "full-stack", nav: "Full-Stack", plate: "Full-Stack Developer", title: "Full-Stack",
-    color: "#4a3540", colorDk: "#3f2d37", tagline: "From the API to the last pixel",
+    slug: "web-developer", nav: "Web Development", plate: "Web Developer", title: "Web Developer",
+    color: "#22304a", colorDk: "#1c2840", tagline: "From the API to the last pixel",
     points: ["React, Next.js & TypeScript", "Spring Boot & FastAPI back-ends", "Auth, payments & real-time", "Performance that users feel", "Shipped end to end"],
   },
   {
-    slug: "ai-environments", nav: "AI Environments", plate: "AI Env Engineer", title: "AI Environments",
-    color: "#7a8670", colorDk: "#66705d", tagline: "Worlds where models learn to work",
-    points: ["RL environments for frontier labs", "Multi-environment personas", "Benchmark suites", "High-fidelity app replicas", "LLM evaluation flows"],
+    slug: "app-developer", nav: "App Development", plate: "App Developer", title: "App Developer",
+    color: "#4a3540", colorDk: "#3f2d37", tagline: "Apps, from the first idea to launch",
+    points: ["Product flows & interfaces", "Real-time chat & video", "Payments & secure auth", "API-first back-ends", "Built for every screen"],
   },
   {
-    slug: "open-source", nav: "Open Source", plate: "OSS Contributor", title: "Open Source",
-    color: "#a4552c", colorDk: "#8f4a26", tagline: "Patches merged upstream",
+    slug: "open-source", nav: "Open Source", plate: "Open Source", title: "Open Source",
+    color: "#7a8670", colorDk: "#66705d", tagline: "Patches merged upstream",
     points: ["Jenkins core (Java)", "GNU Mailman · Postorius (Django)", "Reviewed & merged by maintainers", "Following project conventions", "Usability fixes for real admins"],
+  },
+  {
+    slug: "devops", nav: "DevOps", plate: "DevOps", title: "DevOps",
+    color: "#a4552c", colorDk: "#8f4a26", tagline: "Infrastructure that boots fast and scales",
+    points: ["AWS EC2 & pre-built AMIs", "Ray clusters at scale", "Docker & Docker Compose", "CI/CD with GitHub Actions", "Deploys on Vercel"],
   },
   {
     slug: "toolbox", nav: "Toolbox", plate: "Toolbox", title: "Toolbox", secret: true,
@@ -58,13 +60,13 @@ export const DOORS: Door[] = [
 export const LOADER = {
   pills: [
     { label: "Lakshya Bagani", c: "#1F1C1C", t: "#E8E4E0" },
-    { label: "Distributed systems", c: "#22304a", t: "#E8E4E0" },
-    { label: "Full-stack", c: "#4a3540", t: "#E8E4E0" },
-    { label: "AI environments", c: "#7a8670", t: "#F3EEEC" },
-    { label: "Open source", c: "#a4552c", t: "#F3EEEC" },
+    { label: "Web development", c: "#22304a", t: "#E8E4E0" },
+    { label: "App development", c: "#4a3540", t: "#E8E4E0" },
+    { label: "Open source", c: "#7a8670", t: "#F3EEEC" },
+    { label: "DevOps", c: "#a4552c", t: "#F3EEEC" },
     { label: "Toolbox", c: "#C4B0B0", t: "#1A1818" },
   ],
-  top: ["Lakshya Bagani", "Systems · Full-stack · AI · Open source"] as const,
+  top: ["Lakshya Bagani", "Web · App · Open source · DevOps"] as const,
   caption: "Opening up the work",
 };
 
@@ -103,14 +105,14 @@ export const STORY: Chapter[] = [
     y: "2024", when: "Jul 2024 — Jul 2028", title: "BSc, Computer Science", org: "Scaler School of Technology, Bengaluru",
     points: [
       "Where it all started: code in the classroom and real products on the side.",
-      "Built EliteDocs, an AI-powered doctor consultation platform, with JWT auth, Gemini report summaries, WebRTC calls and Razorpay payments.",
+      "Built EliteDocs, a doctor consultation platform with JWT auth, WebRTC video calls, live chat and digital prescriptions.",
     ],
   },
 ];
 
 /** header + phone menu: [label, target] — number = door, string = section id, null = contact */
 export const NAV: [string, number | string | null][] = [
-  ["Home", "home"], ["Distributed Systems", 0], ["Full-Stack", 1], ["AI Environments", 2], ["Open Source", 3], ["My story", "about"], ["Contact", null],
+  ["Home", "home"], ["Web Development", 0], ["App Development", 1], ["Open Source", 2], ["DevOps", 3], ["My story", "about"], ["Contact", null],
 ];
 
 export const FOOTER = {
@@ -123,8 +125,8 @@ export const FOOTER = {
 
 /** skill bars on the ability card */
 export const ABILITIES = [
-  { label: "Backend & Distributed Systems", value: 90 },
-  { label: "Full-Stack Development", value: 85 },
-  { label: "AI / RL Environments", value: 85 },
+  { label: "Web Development", value: 90 },
+  { label: "App Development", value: 80 },
   { label: "Open Source", value: 75 },
+  { label: "DevOps", value: 85 },
 ];

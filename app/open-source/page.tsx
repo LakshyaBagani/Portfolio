@@ -4,5 +4,5 @@ import HungPage from "@/components/work/HungPage";
 export const metadata: Metadata = { title: "Open Source — Lakshya Bagani" };
 
 export default function Page() {
-  return <HungPage index={3} />;
+  return <HungPage index={2} />;
 }

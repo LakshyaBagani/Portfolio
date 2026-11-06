@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, type CSSProperties } from "react";
-import { SITE, ROLES } from "@/lib/content";
+import { SITE, ROLES, article } from "@/lib/content";
 import { reduced } from "@/lib/runtime";
 import "./hero.css";
 
@@ -15,7 +15,7 @@ export default function Hero() {
     const root = ref.current; if (!root) return;
     const offs: (() => void)[] = [];
     const cal = root.querySelector<HTMLElement>("#cal");
-    if (cal) offs.push(flipCalendar(cal, ROLES));
+    if (cal) offs.push(flipCalendar(cal, ROLES, root.querySelector<HTMLElement>(".cal-art")));
     const fig = root.querySelector<HTMLElement>("#fig"), cv = root.querySelector<HTMLCanvasElement>("#figCanvas");
     if (fig && cv) {
       // touch screens and narrow layouts keep the black & white photo, no reveal
@@ -41,10 +41,10 @@ export default function Hero() {
         <div className="hero__left">
           <p className="eyebrow rv" style={d(200)}>{SITE.eyebrow}</p>
           <h1 className="h1">
-            <span className="sr-only">Hi, I&apos;m {SITE.first}. I am a backend, distributed systems and full-stack engineer.</span>
+            <span className="sr-only">Hi, I&apos;m {SITE.first}. I am a web and app developer, an open source contributor and a DevOps engineer.</span>
             <span aria-hidden="true">
               <span className="line"><span style={d(250)}>Hi, I&apos;m {SITE.first}.</span></span>
-              <span className="line"><span className="soft" style={d(370)}>I am a</span></span>
+              <span className="line"><span className="soft" style={d(370)}>I am <span className="cal-art">{article(ROLES[0])}</span></span></span>
               <span className="cal-line">
                 <span className="cal rv" id="cal" style={d(520)}>
                   <span className="cal__body">
@@ -89,13 +89,13 @@ export default function Hero() {
 }
 
 /* ---------- flip calendar: the roles on an endless desk-calendar flip ---------- */
-function flipCalendar(cal: HTMLElement, words: string[]): () => void {
+function flipCalendar(cal: HTMLElement, words: string[], art: HTMLElement | null): () => void {
   const HOLD = 1700, FLIP = 1250;
   const q = (s: string, r: ParentNode = cal) => r.querySelector(s) as HTMLElement;
   const body = q(".cal__body"), leaf = q(".cal__leaf"), under = q("[data-under]"), face = q(".cal__face");
   const measure = q(".cal__measure"), rings = q(".cal__rings"), rear = q(".cal__rear", leaf);
   const n = words.length, two = (k: number) => String(k).padStart(2, "0");
-  let i = 0, timer = 0, fitT = 0, started = false, dead = false;
+  let i = 0, timer = 0, fitT = 0, artT = 0, started = false, dead = false;
   let flipAnim: Animation | null = null;
 
   const paint = (page: HTMLElement, k: number) => {
@@ -103,6 +103,19 @@ function flipCalendar(cal: HTMLElement, words: string[]): () => void {
     q(".cal__no", page).textContent = `${two(k + 1)} / ${two(n)}`;
   };
   paint(face, 0); paint(under, 1 % n);
+
+  // "I am a" / "I am an": the article above follows the role, swapping as the next page shows
+  const setArt = (k: number) => {
+    const a = article(words[k]);
+    if (!art || dead || art.textContent === a) return;
+    if (reduced) { art.textContent = a; return; }
+    art.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140, easing: "ease-in", fill: "forwards" }).onfinish = () => {
+      if (dead) return;
+      art.textContent = a;
+      art.getAnimations().forEach(x => x.cancel());
+      art.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 220, easing: "ease-out" });
+    };
+  };
 
   // size the page to the longest role, and shrink the whole calendar if the column is too narrow
   const fit = () => {
@@ -138,9 +151,10 @@ function flipCalendar(cal: HTMLElement, words: string[]): () => void {
     if (document.hidden) { timer = window.setTimeout(flip, 600); return; }
     const next = (i + 1) % n;
     if (reduced) {
-      i = next; paint(face, i); paint(under, (i + 1) % n);
+      i = next; paint(face, i); paint(under, (i + 1) % n); setArt(i);
       timer = window.setTimeout(flip, HOLD + 700); return;
     }
+    artT = window.setTimeout(() => setArt(next), FLIP * 0.2);
     const lin = { duration: FLIP, easing: "linear", fill: "forwards" as FillMode };
     // the page shows its face until it is over the top, then the back of the page takes over
     face.animate([{ opacity: 1 }, { opacity: 1, offset: 0.285 }, { opacity: 0, offset: 0.295 }, { opacity: 0 }], lin);
@@ -167,7 +181,8 @@ function flipCalendar(cal: HTMLElement, words: string[]): () => void {
 
   return () => {
     dead = true;
-    clearTimeout(timer); clearTimeout(fitT);
+    clearTimeout(timer); clearTimeout(fitT); clearTimeout(artT);
+    art?.getAnimations().forEach(x => x.cancel());
     removeEventListener("resize", onResize);
     removeEventListener("intro:ready", start);
     if (flipAnim) flipAnim.onfinish = null;

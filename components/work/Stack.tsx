@@ -25,7 +25,7 @@ function Device({ p }: { p: Project }) {
     <div className="stage stage--phone" aria-hidden="true">
       <div className="phone"><div className="phone__body">
         <i className="phone__btn l" style={{ top: "19%", height: "4%" }} /><i className="phone__btn l" style={{ top: "26%", height: "7.5%" }} /><i className="phone__btn l" style={{ top: "35%", height: "7.5%" }} /><i className="phone__btn r" style={{ top: "28%", height: "11%" }} />
-        <div className="phone__screen" data-scr="" data-vw="390">
+        <div className="phone__screen" data-scr="" data-vw="390" style={"video" in p.media && p.media.sbar ? ({ "--sbar": p.media.sbar } as React.CSSProperties) : undefined}>
           <Recording p={p} />
           <div className="sbar"><span>9:41</span><span>{SIG}{WIFI}{BATT}</span></div><div className="island" />
         </div>

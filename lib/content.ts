@@ -43,7 +43,7 @@ export const DOORS: Door[] = [
   {
     slug: "open-source", nav: "Open Source", plate: "Open Source", title: "Open Source",
     color: "#7a8670", colorDk: "#66705d", tagline: "Patches merged upstream",
-    points: ["Jenkins core (Java)", "GNU Mailman · Postorius (Django)", "Reviewed & merged by maintainers", "Following project conventions", "Usability fixes for real admins"],
+    points: ["RISC-V Unified DB (ISA spec)", "Jenkins core (Java)", "GNU Mailman · Postorius (Django)", "Reviewed by project maintainers", "Following project conventions"],
   },
   {
     slug: "devops", nav: "DevOps", plate: "DevOps", title: "DevOps",
@@ -98,7 +98,7 @@ export const STORY: Chapter[] = [
     y: "2024", when: "Jul 2024 — Jul 2027", title: "BSc, Computer Science", org: "BITS Pilani · Dual degree",
     points: [
       "The second half of a dual degree: computer science fundamentals alongside the Scaler programme.",
-      "Open source on the side: merged fixes in Jenkins core and 10+ merge requests to GNU Mailman's Postorius.",
+      "Open source on the side: fixes merged into Jenkins core and the RISC-V specification database, and merge requests to GNU Mailman's Postorius.",
     ],
   },
   {

@@ -12,6 +12,7 @@
 /* cover: the project's poster */
 .pz--cover{padding:64px 60px 52px;background:radial-gradient(120% 70% at 100% 0%,color-mix(in srgb,var(--pacc,#a4552c) 22%,transparent),transparent 60%),var(--pbg,#F4EFE7)}
 .pz--cover.pz--ink{--pbg:#171616;--pfg:#EFE9E1;--pacc:#d38a5e}
+.pz--cover.pz--riscv{--pbg:#1d2550;--pfg:#F3EEE2;--pacc:#F2A900}
 .pz-top{display:flex;justify-content:space-between;align-items:center;font-size:22px;font-weight:600;letter-spacing:.04em;opacity:.8}
 .pz-top .mono{font-size:21px}
 .pz-name{margin-top:90px;font-size:150px;font-weight:700;line-height:.86;letter-spacing:-.05em}
@@ -25,6 +26,7 @@
 /* a pull request / merge request page */
 .pz--pr{--pbg:#ffffff;--pfg:#1f2328;--line:#d1d9e0;--muted:#59636e;--merged:#8250df;padding:0}
 .pz--pr.gl{--pbg:#fbfafd;--pfg:#28272d;--line:#dcdcde;--muted:#626168;--merged:#1f75cb}
+.pz--pr.open{--merged:#108548}
 .pz-h{display:flex;align-items:center;gap:14px;height:86px;padding:0 44px;border-bottom:1px solid var(--line);font-size:22px;color:var(--muted);background:color-mix(in srgb,var(--pfg,#1A1818) 3%,var(--pbg,#F4EFE7))}
 .pz-h .mono{font-weight:600;color:var(--pfg)}
 .pz-logo{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--pfg);color:var(--pbg);font-size:20px}
@@ -56,6 +58,7 @@
 .pz-checks{margin-top:auto;padding:26px 44px 40px;display:flex;flex-direction:column;gap:12px;font-size:21px;font-weight:500}
 .pz-checks p{display:flex;align-items:center;gap:14px}
 .pz-checks b{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:#1a7f37;color:#fff;font-size:20px}
+.pz-checks b.wait{background:#9a6700}
 
 /* a big number */
 .pz--stat{--pbg:#a4552c;--pfg:#FBF1EA;padding:64px 60px;justify-content:flex-end;

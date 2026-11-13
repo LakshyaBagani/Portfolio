@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://lakshyabagani.com"),
   title: "Lakshya Bagani — Web & App Developer, Open Source, DevOps",
   description:
-    "Lakshya Bagani builds web and mobile apps end to end, contributes to open source (Jenkins, GNU Mailman) and runs the infrastructure behind them on AWS, Docker and Ray. Based in Bengaluru, India.",
+    "Lakshya Bagani builds web and mobile apps end to end, contributes to open source (RISC-V, Jenkins, GNU Mailman) and runs the infrastructure behind them on AWS, Docker and Ray. Based in Bengaluru, India.",
   authors: [{ name: "Lakshya Bagani" }],
   openGraph: {
     type: "profile",

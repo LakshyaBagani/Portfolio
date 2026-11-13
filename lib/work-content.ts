@@ -35,7 +35,9 @@ export type StackPage = { template: "stack"; door: number; title: string; intro:
 export type DiffLine = [" " | "+" | "-" | "@", string];
 export type Poster =
   | { t: "cover"; repo: string; name: string; em?: string; lang: string; big: string; bigLabel: string; lines: string[] }
-  | { t: "pr"; host: "github" | "gitlab"; repo: string; no: string; title: string; label: string; file: string; diff: DiffLine[]; foot: string }
+  /** by / base / commits / files / tag default to a one-commit change merged by lakshya (main on GitLab, master on GitHub);
+      state "open" draws a change still in review, by = its author; tag "" hides the second label; checks null hides the checks line */
+  | { t: "pr"; host: "github" | "gitlab"; state?: "open"; repo: string; no: string; title: string; label: string; tag?: string; by?: string; base?: string; commits?: number; files?: number; checks?: string | null; file: string; diff: DiffLine[]; foot: string }
   | { t: "stat"; big: string; label: string; lines: string[] }
   | { t: "thread"; host: "github" | "gitlab"; title: string; msgs: { who: string; text: string; me?: boolean }[]; end: string }
   | { t: "step"; n: string; of: string; title: string; body: string; glyph: string };
@@ -214,44 +216,61 @@ const aienv: StackPage = {
 /* =====================================================================
    3 · Open Source — the "prints" are contribution posters
    ===================================================================== */
-const J = "jenkinsci/jenkins", M = "mailman/postorius";
+const R = "riscv/riscv-unified-db", J = "jenkinsci/jenkins", M = "mailman/postorius";
+/** the RISC-V prints are the real pull requests: hunks, commit counts and the review are as merged on GitHub */
+const RV = { host: "github", repo: R, by: "ThinkOpenly", base: "main", foot: "Approved by ThinkOpenly" } as const;
 const opensource: HungPage = {
   template: "hung", door: 2, title: "Open Source",
-  intro: "Fixes merged upstream in two long-running projects. Each project hangs on its own line, in its own colours: scroll to walk along it, click any card to read it up close.",
+  intro: "Contributions to three long-running projects: fixes merged into the RISC-V specification database and Jenkins core, and merge requests in review on GNU Mailman. Each project hangs on its own line, in its own colours: scroll to walk along it, click any card to read it up close.",
   how: "Scroll to walk the line",
   worlds: [
     {
-      k: "jenkins", name: "Jenkins", em: "core", label: "Jenkins core", kicker: "Pull requests · Java",
-      desc: "Resolved three configuration issues in Jenkins core, merged after maintainer review: refactored form handling and improved SCM-plugin compatibility in job configuration.",
-      tags: ["Java", "Job configuration", "Maintainer review"], bg: "#1A1818", fg: "#E8E4E0", acc: "#C4B0B0",
+      k: "riscv", name: "RISC-V", em: "Unified DB", label: "RISC-V Unified DB", kicker: "Pull requests · RISC-V ISA spec",
+      desc: "Three fixes merged into the RISC-V Unified Database, the machine-readable RISC-V specification that docs and tools are generated from. The dcsr parameters now sit under Sdext, MRET and SRET read their return address the way the spec requires, and mtvec and stvec enforce alignment parameters that were never read.",
+      tags: ["RISC-V ISA", "YAML & IDL", "Ruby"], bg: "#EFE5CB", fg: "#1B2150", acc: "#2B3A8C",
       items: [
-        { key: "j0", title: "Jenkins core", poster: { t: "cover", repo: J, name: "Jenkins", em: "core", lang: "Java", big: "3", bigLabel: "configuration issues resolved", lines: ["Merged after maintainer review", "Form handling · SCM plugins"] } },
-        { key: "j1", title: "Configuration issue 1 of 3", poster: { t: "pr", host: "github", repo: J, no: "1 / 3", title: "Keep form state when a job configuration fails validation", label: "configuration", file: "core/src/main/java/hudson/model/Job.java", foot: "Merged after maintainer review",
-          diff: [["@", "@@ public synchronized void doConfigSubmit(…)"], [" ", "JSONObject json = req.getSubmittedForm();"], ["-", "description = req.getParameter(\"description\");"], ["+", "description = json.optString(\"description\", description);"], [" ", "keepDependencies = json.has(\"keepDependencies\");"], ["+", "if (json.has(\"properties\")) {"], ["+", "    submitProperties(req, json);"], ["+", "}"], [" ", "save();"]] } },
-        { key: "j2", title: "Configuration issue 2 of 3", poster: { t: "pr", host: "github", repo: J, no: "2 / 3", title: "Refactor form handling in the job configuration page", label: "refactoring", file: "core/src/main/resources/lib/form/section.jelly", foot: "Merged after maintainer review",
-          diff: [["@", "@@ <f:section title=\"${attrs.title}\">"], ["-", "<table width=\"100%\">"], ["-", "  <d:invokeBody/>"], ["-", "</table>"], ["+", "<div class=\"jenkins-section\">"], ["+", "  <d:invokeBody/>"], ["+", "</div>"], [" ", "</f:section>"]] } },
-        { key: "j3", title: "Configuration issue 3 of 3", poster: { t: "pr", host: "github", repo: J, no: "3 / 3", title: "Improve SCM plugin compatibility in job configuration", label: "compatibility", file: "core/src/main/java/hudson/scm/SCM.java", foot: "Merged after maintainer review",
-          diff: [["@", "@@ public SCMDescriptor<?> getDescriptor()"], [" ", "Descriptor<?> d = Jenkins.get().getDescriptor(getClass());"], ["-", "return (SCMDescriptor<?>) d;"], ["+", "if (d instanceof SCMDescriptor) {"], ["+", "    return (SCMDescriptor<?>) d;"], ["+", "}"], ["+", "throw new IllegalStateException(…);"]] } },
-        { key: "j4", title: "Maintainer review", poster: { t: "thread", host: "github", title: "Review on jenkinsci/jenkins", end: "Merged",
-          msgs: [{ who: "maintainer", text: "Thanks! Could you add a test that covers the failing case?" }, { who: "lakshya", text: "Added one, it reproduces the issue before the fix.", me: true }, { who: "maintainer", text: "Looks good to me. Approved." }] } },
-        { key: "j5", title: "Jenkins core", poster: { t: "stat", big: "3/3", label: "pull requests merged", lines: ["Form handling refactored", "SCM-plugin compatibility improved", "Reviewed by the maintainers"] } },
+        { key: "r0", title: "RISC-V Unified DB", poster: { t: "cover", repo: R, name: "RISC-V", em: "Unified DB", lang: "YAML · IDL · Ruby", big: "3", bigLabel: "pull requests merged", lines: ["The RISC-V spec as data, for docs and tools", "dcsr params · xRET · mtvec & stvec"] } },
+        { key: "r1", title: "#2803: dcsr parameters under Sdext", poster: { ...RV, t: "pr", no: "#2803", title: "Define DCSR_*_TYPE params under Sdext", label: "fix(data)", tag: "Fixes #2794", commits: 3, files: 7, file: "spec/std/isa/param/DCSR_STEPIE_TYPE.yaml",
+          diff: [["@", "@@ -18,6 +16,6 @@"], [" ", "schema:"], [" ", "  type: string"], ["-", "  enum: [read-only-0, read-only-1, rw]"], ["+", "  enum: [read-only-0, rw]"], [" ", "definedBy:"], [" ", "  extension:"], ["-", "    name: Sdtrig"], ["+", "    name: Sdext"]] } },
+        { key: "r2", title: "#2808: xRET reads xepc through sw_read", poster: { ...RV, t: "pr", no: "#2808", title: "Read xepc through sw_read on xRET", label: "fix(inst)", tag: "Part of #2637", commits: 1, files: 3, file: "spec/std/isa/inst/S/sret.yaml",
+          diff: [["@", "@@ -133,4 +133,4 @@ operation(): |"], [" ", "  CSR[mstatus].SPIE = 1;"], [" ", "  CSR[mstatus].SPP = 2'b00;"], ["-", "  $pc = $bits(CSR[sepc]);"], ["+", "  $pc = CSR[sepc].sw_read();"], [" ", "} else if (implemented?(ExtensionName::H)) {"],
+            ["@", "@@ -142,3 +142,3 @@ operation(): |"], [" ", "  CSR[vsstatus].SPIE = 1;"], ["-", "  $pc = $bits(CSR[vsepc]);"], ["+", "  $pc = CSR[vsepc].sw_read();"], [" ", "} else {"]] } },
+        { key: "r3", title: "#2809: mtvec and stvec alignment", poster: { ...RV, t: "pr", no: "#2809", title: "Enforce mtvec and stvec BASE alignment parameters", label: "fix(csr)", tag: "Part of #2637", commits: 1, files: 2, file: "spec/std/isa/csr/stvec.yaml",
+          diff: [["@", "@@ -31,3 +34,7 @@ sw_write(csr_value): |"], ["-", "  # Base spec says that BASE must be 4-byte aligned, which will always be the case"], ["-", "  # implementations may put further constraints on BASE when MODE != Direct"], ["-", "  # If that is the case, stvec should have an override for the implementation"],
+            ["+", "  # BASE always holds a 4-byte aligned address, which is all Direct mode needs."], ["+", "  # Vectored mode can require more alignment."], ["+", "  if ($array_includes?(STVEC_MODES, 1)) {"], ["+", "    if ((csr_value.MODE == 1) && (({csr_value.BASE, 2'b00} & (STVEC_BASE_ALIGNMENT_VECTORED - 1)) != 0)) {"], ["+", "      return UNDEFINED_LEGAL_DETERMINISTIC;"], ["+", "    }"], ["+", "  }"]] } },
+        { key: "r4", title: "Review on #2803", poster: { t: "thread", host: "github", title: "Review on riscv/riscv-unified-db #2803", end: "Merged",
+          msgs: [{ who: "LakshyaBagani", text: "@ThinkOpenly could you review this when you have a chance? It moves the DCSR_*_TYPE params to Sdext for #2794.", me: true }, { who: "ThinkOpenly", text: "Thank you!" }, { who: "LakshyaBagani", text: "Thanks for the quick review @ThinkOpenly.", me: true }] } },
+        { key: "r5", title: "RISC-V Unified DB", poster: { t: "stat", big: "3", label: "pull requests merged", lines: ["Approved by maintainer ThinkOpenly", "Every changed line covered by tests", "A fourth, on xepc masking, in review"] } },
       ],
     },
     {
-      k: "postorius", name: "Mailman", em: "Postorius", label: "Postorius", kicker: "Merge requests · Python & Django",
-      desc: "10+ merge requests to Postorius, the web interface of GNU Mailman: UI and frontend defect fixes on GitLab, written to the project's conventions.",
+      k: "jenkins", name: "Jenkins", em: "core", label: "Jenkins core", kicker: "Pull requests · Jelly & JavaScript",
+      desc: "Two pull requests merged into Jenkins core, each after several rounds of maintainer review. The directory browser's breadcrumbs now show a job's display name, and Build Now no longer says “Build Scheduled” when a disabled multibranch project rejects the build.",
+      tags: ["Jelly", "JavaScript", "Maintainer review"], bg: "#1A1818", fg: "#E8E4E0", acc: "#C4B0B0",
+      items: [
+        { key: "j0", title: "Jenkins core", poster: { t: "cover", repo: J, name: "Jenkins", em: "core", lang: "Jelly · JavaScript", big: "2", bigLabel: "pull requests merged", lines: ["Reviewed by four Jenkins maintainers", "Directory browser · Build Now"] } },
+        { key: "j1", title: "#25924: display names in breadcrumbs", poster: { t: "pr", host: "github", repo: J, no: "#25924", title: "Use display name in directory browser breadcrumbs", label: "web-ui", tag: "Fixes #16765", by: "MarkEWaite", commits: 4, files: 1, file: "core/src/main/resources/hudson/model/DirectoryBrowserSupport/dir.jelly", foot: "Approved by mawinter69, timja and MarkEWaite",
+          diff: [["@", "@@ -34,7 +34,9 @@ THE SOFTWARE."], [" ", "<!-- parent path -->"], [" ", "  <div class=\"parentPath\">"], [" ", "    <form>"], ["-", "      <a href=\"${topPath}\">${it.owner.name}</a> /"], ["+", "      <a href=\"${topPath}\">"], ["+", "        ${it.owner.displayName}"], ["+", "      </a> /"], [" ", "      <j:forEach var=\"p\" items=\"${parentPath}\">"], [" ", "        <a href=\"${p.href}\">${p.title}</a>"], [" ", "        /"]] } },
+        { key: "j2", title: "Review on #25924", poster: { t: "thread", host: "github", title: "Review on jenkinsci/jenkins #25924", end: "Merged",
+          msgs: [{ who: "timja", text: "Please include before and after screenshots for any ui change" }, { who: "LakshyaBagani", text: "I’ve added the before screenshot as well.", me: true }, { who: "MarkEWaite", text: "I tested interactively and found no issues. Thanks!" }] } },
+        { key: "j3", title: "#26117: no false “Build Scheduled”", poster: { t: "pr", host: "github", repo: J, no: "#26117", title: "Fix false “Build Scheduled” notification when the parent multibranch is disabled", label: "bug", tag: "Fixes #16678", by: "timja", commits: 4, files: 2, file: "core/src/main/resources/hudson/views/BuildButtonColumn/icon.js", foot: "Approved by timja, MarkEWaite and mawinter69",
+          diff: [["@", "@@ -14,7 +14,7 @@ Behaviour.specify("], [" ", "  method: \"post\","], [" ", "  headers: crumb.wrap({}),"], [" ", "}).then((rsp) => {"], ["-", "  if (rsp.ok) {"], ["+", "  if (rsp.status === 201) {"], [" ", "    notificationBar.show(message, notificationBar.SUCCESS);"], [" ", "  } else {"], [" ", "    notificationBar.show(failure, notificationBar.ERROR);"]] } },
+        { key: "j4", title: "Review on #26117", poster: { t: "thread", host: "github", title: "Review on jenkinsci/jenkins #26117", end: "Merged",
+          msgs: [{ who: "daniel-beck", text: "Why did you change both files? Wouldn't one of the changes be enough?" }, { who: "LakshyaBagani", text: "Good question. Either change alone would fix the issue.", me: true }, { who: "timja", text: "You already have an explicit signal. 201 created that’s all you need" }] } },
+        { key: "j5", title: "Jenkins core", poster: { t: "stat", big: "2", label: "pull requests merged", lines: ["Merged by MarkEWaite and timja", "Every review comment answered", "Before and after screenshots for UI changes"] } },
+      ],
+    },
+    {
+      k: "postorius", name: "Mailman", em: "Postorius", label: "Postorius", kicker: "Merge requests · Python & Django · GSoC",
+      desc: "Two merge requests in review on Postorius, GNU Mailman's Django web interface, both tagged GSoC. One wraps strings that never reached translators in i18n tags; the other documents how list footers fall back to Mailman's generic template.",
       tags: ["Python", "Django", "GitLab"], bg: "#E8E4E0", fg: "#1A1818", acc: "#6B4F4F",
       items: [
-        { key: "m0", title: "Postorius", dark: true, poster: { t: "cover", repo: M, name: "Mailman", em: "Postorius", lang: "Python · Django", big: "10+", bigLabel: "merge requests", lines: ["UI & frontend defect fixes", "Following project conventions"] } },
-        { key: "m1", title: "UI defect fix", poster: { t: "pr", host: "gitlab", repo: M, no: "UI", title: "Fix the layout of list settings on small screens", label: "ui", file: "postorius/templates/postorius/lists/settings.html", foot: "Merged on GitLab",
-          diff: [["@", "@@ {% block main %}"], ["-", "<div class=\"col-md-8\">"], ["+", "<div class=\"col-12 col-md-8\">"], [" ", "  {% bootstrap_form form %}"], ["-", "  <input type=\"submit\" class=\"btn\">"], ["+", "  <button type=\"submit\" class=\"btn btn-primary\">"], ["+", "    {% trans 'Save changes' %}</button>"], [" ", "</div>"]] } },
-        { key: "m2", title: "Frontend defect fix", poster: { t: "pr", host: "gitlab", repo: M, no: "FE", title: "Show held messages with a readable subject", label: "frontend", file: "postorius/templates/postorius/lists/held_messages.html", foot: "Merged on GitLab",
-          diff: [["@", "@@ {% for msg in held_messages %}"], ["-", "<td>{{ msg.subject }}</td>"], ["+", "<td class=\"text-break\">"], ["+", "  {{ msg.subject|default:_('(no subject)') }}"], ["+", "</td>"], [" ", "<td>{{ msg.sender }}</td>"]] } },
-        { key: "m3", title: "Review on GitLab", poster: { t: "thread", host: "gitlab", title: "Merge request review", end: "Merged",
-          msgs: [{ who: "maintainer", text: "Please follow the template conventions used in the other list views." }, { who: "lakshya", text: "Updated to match, and rebased on main.", me: true }, { who: "maintainer", text: "Thanks, merging." }] } },
-        { key: "m4", title: "UI defect fix", poster: { t: "pr", host: "gitlab", repo: M, no: "UI", title: "Align the subscription form buttons", label: "ui", file: "postorius/templates/postorius/lists/subscribe.html", foot: "Merged on GitLab",
-          diff: [["@", "@@ <form method=\"post\">"], [" ", "{% csrf_token %}"], ["-", "<p><input type=\"submit\"></p>"], ["+", "<div class=\"d-flex gap-2\">"], ["+", "  <button class=\"btn btn-primary\">…</button>"], ["+", "</div>"]] } },
-        { key: "m5", title: "Postorius", poster: { t: "stat", big: "10+", label: "merge requests", lines: ["UI and frontend defects", "Reviewed and merged on GitLab", "Written to project conventions"] } },
+        { key: "m0", title: "Postorius", dark: true, poster: { t: "cover", repo: M, name: "Mailman", em: "Postorius", lang: "Python · Django", big: "2", bigLabel: "merge requests in review", lines: ["i18n tags · footer template docs", "Tagged GSoC on GitLab"] } },
+        { key: "m1", title: "!1083: strings wrapped for translation", poster: { t: "pr", host: "gitlab", state: "open", repo: M, base: "master", no: "!1083", title: "Wrap missing hardcoded strings with i18n translation tags", label: "GSoC", tag: "", by: "LakshyaBagani", commits: 3, files: 9, checks: "Pipeline passed", foot: "In review on GitLab", file: "src/postorius/templates/postorius/lists/confirm_token.html",
+          diff: [["@", "@@ -26,7 +26,7 @@"], [" ", "<form action=\"{% url 'confirm_token' mlist.list_id %}\" method=\"post\">"], [" ", "    {% csrf_token %}"], [" ", "    {{ form }}"], ["-", "    <input type=\"submit\" value=\"Confirm\" class=\"btn btn-success btn-lg\">"], ["+", "    <input type=\"submit\" value=\"{% trans 'Confirm' %}\" class=\"btn btn-success btn-lg\">"], [" ", "</form>"], [" ", ""], [" ", "{% endblock content %}"]] } },
+        { key: "m2", title: "!1066: footer fallback documented", poster: { t: "pr", host: "gitlab", state: "open", repo: M, base: "master", no: "!1066", title: "Document generic footer fallback in template descriptions", label: "GSoC", tag: "", by: "LakshyaBagani", commits: 6, files: 14, checks: null, foot: "In review on GitLab", file: "src/postorius/template_list.py",
+          diff: [["@", "@@ -86,5 +92,8 @@ TEMPLATES_LIST = ("], [" ", "),"], [" ", "("], [" ", "    'list:member:regular:footer',"], ["-", "    _('The footer for a regular (non-digest) message.'),"], ["+", "    _("], ["+", "        'The footer for a regular (non-digest) message. If not set, '"], ["+", "        'Mailman falls back to the built-in generic footer template.'"], ["+", "    ),"], [" ", "),"]] } },
+        { key: "m3", title: "Postorius", poster: { t: "stat", big: "2", label: "merge requests in review", lines: ["Strings wrapped for translation", "Footer fallback documented", "Tagged GSoC on GitLab"] } },
       ],
     },
     {
@@ -259,21 +278,29 @@ const opensource: HungPage = {
       desc: "How a fix travels from an issue to the main branch, told as swipe-through stacks. Click a stack to swipe through it.",
       tags: ["Carousels", "Code review", "Upstream"], bg: "#a4552c", fg: "#F6EEE8", acc: "#F3D3BF",
       items: [
-        { key: "d0", title: "Jenkins: issue to merge", poster: { t: "step", n: "01", of: "05", title: "Jenkins: issue to merge", body: "Three configuration issues in Jenkins core, from report to release.", glyph: "J" },
-          deck: { title: "Jenkins: issue to merge", slides: [
-            { t: "step", n: "01", of: "05", title: "Jenkins: issue to merge", body: "Three configuration issues in Jenkins core, from report to release.", glyph: "J" },
-            { t: "step", n: "02", of: "05", title: "Reproduce", body: "Rebuild the failing job configuration locally until the bug shows up every time.", glyph: "R" },
-            { t: "step", n: "03", of: "05", title: "Patch", body: "Refactor the form handling, keep SCM plugins compatible, add a test.", glyph: "P" },
-            { t: "step", n: "04", of: "05", title: "Review", body: "Maintainers review the pull request; every comment gets a change or an answer.", glyph: "C" },
-            { t: "step", n: "05", of: "05", title: "Merged", body: "All three merged into Jenkins core.", glyph: "✓" },
+        { key: "d3", title: "RISC-V: one issue, three pull requests", poster: { t: "step", n: "01", of: "05", title: "RISC-V: one issue, three pull requests", body: "Issue #2637: trap-vector parameters that were never read, and xepc masking the wrong bit.", glyph: "V" },
+          deck: { title: "RISC-V: one issue, three pull requests", slides: [
+            { t: "step", n: "01", of: "05", title: "RISC-V: one issue, three pull requests", body: "Issue #2637: trap-vector parameters that were never read, and xepc masking the wrong bit.", glyph: "V" },
+            { t: "step", n: "02", of: "05", title: "Read the spec", body: "Check each behaviour against the RISC-V privileged specification before touching the data.", glyph: "§" },
+            { t: "step", n: "03", of: "05", title: "Split it up", body: "One small pull request per fix, as agreed in the issue: xepc masking, xRET reads and trap-vector alignment.", glyph: "3" },
+            { t: "step", n: "04", of: "05", title: "Covered", body: "Codecov reports every changed line covered by tests.", glyph: "CI" },
+            { t: "step", n: "05", of: "05", title: "Merged", body: "The xRET and trap-vector fixes are merged into main; the xepc masking fix is in review.", glyph: "✓" },
           ] } },
-        { key: "d1", title: "Postorius: a merge request", poster: { t: "step", n: "01", of: "05", title: "Postorius: a merge request", body: "10+ merge requests to GNU Mailman's web UI on GitLab.", glyph: "M" },
+        { key: "d0", title: "Jenkins: issue to merge", poster: { t: "step", n: "01", of: "05", title: "Jenkins: issue to merge", body: "Issue #16678 in Jenkins core, from the bug report to a merged fix.", glyph: "J" },
+          deck: { title: "Jenkins: issue to merge", slides: [
+            { t: "step", n: "01", of: "05", title: "Jenkins: issue to merge", body: "Issue #16678 in Jenkins core, from the bug report to a merged fix.", glyph: "J" },
+            { t: "step", n: "02", of: "05", title: "Reproduce", body: "Build Now said “Build Scheduled” even when a disabled multibranch project had rejected the build.", glyph: "R" },
+            { t: "step", n: "03", of: "05", title: "Patch", body: "The first version changed both the Java response and the JavaScript check.", glyph: "P" },
+            { t: "step", n: "04", of: "05", title: "Review", body: "The maintainers pointed out that 201 Created was already the signal, so only the JavaScript check stayed.", glyph: "C" },
+            { t: "step", n: "05", of: "05", title: "Merged", body: "Approved by timja, MarkEWaite and mawinter69, and merged into Jenkins core.", glyph: "✓" },
+          ] } },
+        { key: "d1", title: "Postorius: a merge request", poster: { t: "step", n: "01", of: "05", title: "Postorius: a merge request", body: "Two merge requests to GNU Mailman's web UI on GitLab, both in review.", glyph: "M" },
           deck: { title: "Postorius: a merge request", slides: [
-            { t: "step", n: "01", of: "05", title: "Postorius: a merge request", body: "10+ merge requests to GNU Mailman's web UI on GitLab.", glyph: "M" },
-            { t: "step", n: "02", of: "05", title: "Find the defect", body: "A UI or frontend bug a list admin would actually run into.", glyph: "F" },
-            { t: "step", n: "03", of: "05", title: "Fix it their way", body: "Templates, styles and tests that follow the project's conventions.", glyph: "{ }" },
-            { t: "step", n: "04", of: "05", title: "Pipeline green", body: "The GitLab pipeline passes before anyone is asked to review.", glyph: "CI" },
-            { t: "step", n: "05", of: "05", title: "Merged", body: "Reviewed and merged into Postorius.", glyph: "✓" },
+            { t: "step", n: "01", of: "05", title: "Postorius: a merge request", body: "Two merge requests to GNU Mailman's web UI on GitLab, both in review.", glyph: "M" },
+            { t: "step", n: "02", of: "05", title: "Find the gap", body: "Buttons, labels and screen-reader text that never reached translators, because they weren't wrapped in trans tags.", glyph: "F" },
+            { t: "step", n: "03", of: "05", title: "Fix it their way", body: "The same Django trans tags the rest of Postorius already uses.", glyph: "{ }" },
+            { t: "step", n: "04", of: "05", title: "Pipeline green", body: "The GitLab pipeline passes on the translation merge request.", glyph: "CI" },
+            { t: "step", n: "05", of: "05", title: "In review", body: "Both merge requests are open, waiting on the Mailman maintainers.", glyph: "…" },
           ] } },
         { key: "d2", title: "Working upstream", poster: { t: "step", n: "01", of: "04", title: "Working upstream", body: "What I keep to when the code isn't mine.", glyph: "Up" },
           deck: { title: "Working upstream", slides: [

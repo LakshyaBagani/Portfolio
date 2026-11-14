@@ -226,10 +226,10 @@ const opensource: HungPage = {
   worlds: [
     {
       k: "riscv", name: "RISC-V", em: "Unified DB", label: "RISC-V Unified DB", kicker: "Pull requests · RISC-V ISA spec",
-      desc: "Three fixes merged into the RISC-V Unified Database, the machine-readable RISC-V specification that docs and tools are generated from. The dcsr parameters now sit under Sdext, MRET and SRET read their return address the way the spec requires, and mtvec and stvec enforce alignment parameters that were never read.",
+      desc: "Four fixes merged into the RISC-V Unified Database, the machine-readable RISC-V specification that docs and tools are generated from. The dcsr parameters now sit under Sdext, MRET and SRET read their return address the way the spec requires, mtvec and stvec enforce alignment parameters that were never read, and bit 63 of the stateen1-3 registers now carries the SE1-SE3 names the Sail model uses.",
       tags: ["RISC-V ISA", "YAML & IDL", "Ruby"], bg: "#EFE5CB", fg: "#1B2150", acc: "#2B3A8C",
       items: [
-        { key: "r0", title: "RISC-V Unified DB", poster: { t: "cover", repo: R, name: "RISC-V", em: "Unified DB", lang: "YAML · IDL · Ruby", big: "3", bigLabel: "pull requests merged", lines: ["The RISC-V spec as data, for docs and tools", "dcsr params · xRET · mtvec & stvec"] } },
+        { key: "r0", title: "RISC-V Unified DB", poster: { t: "cover", repo: R, name: "RISC-V", em: "Unified DB", lang: "YAML · IDL · Ruby", big: "4", bigLabel: "pull requests merged", lines: ["The RISC-V spec as data, for docs and tools", "dcsr · xRET · mtvec & stvec · stateen"] } },
         { key: "r1", title: "#2803: dcsr parameters under Sdext", poster: { ...RV, t: "pr", no: "#2803", title: "Define DCSR_*_TYPE params under Sdext", label: "fix(data)", tag: "Fixes #2794", commits: 3, files: 7, file: "spec/std/isa/param/DCSR_STEPIE_TYPE.yaml",
           diff: [["@", "@@ -18,6 +16,6 @@"], [" ", "schema:"], [" ", "  type: string"], ["-", "  enum: [read-only-0, read-only-1, rw]"], ["+", "  enum: [read-only-0, rw]"], [" ", "definedBy:"], [" ", "  extension:"], ["-", "    name: Sdtrig"], ["+", "    name: Sdext"]] } },
         { key: "r2", title: "#2808: xRET reads xepc through sw_read", poster: { ...RV, t: "pr", no: "#2808", title: "Read xepc through sw_read on xRET", label: "fix(inst)", tag: "Part of #2637", commits: 1, files: 3, file: "spec/std/isa/inst/S/sret.yaml",
@@ -238,9 +238,12 @@ const opensource: HungPage = {
         { key: "r3", title: "#2809: mtvec and stvec alignment", poster: { ...RV, t: "pr", no: "#2809", title: "Enforce mtvec and stvec BASE alignment parameters", label: "fix(csr)", tag: "Part of #2637", commits: 1, files: 2, file: "spec/std/isa/csr/stvec.yaml",
           diff: [["@", "@@ -31,3 +34,7 @@ sw_write(csr_value): |"], ["-", "  # Base spec says that BASE must be 4-byte aligned, which will always be the case"], ["-", "  # implementations may put further constraints on BASE when MODE != Direct"], ["-", "  # If that is the case, stvec should have an override for the implementation"],
             ["+", "  # BASE always holds a 4-byte aligned address, which is all Direct mode needs."], ["+", "  # Vectored mode can require more alignment."], ["+", "  if ($array_includes?(STVEC_MODES, 1)) {"], ["+", "    if ((csr_value.MODE == 1) && (({csr_value.BASE, 2'b00} & (STVEC_BASE_ALIGNMENT_VECTORED - 1)) != 0)) {"], ["+", "      return UNDEFINED_LEGAL_DETERMINISTIC;"], ["+", "    }"], ["+", "  }"]] } },
+        { key: "r6", title: "#2823: stateen1-3 bit 63 renamed", poster: { ...RV, by: "jordancarlin", foot: "Approved by jordancarlin", t: "pr", no: "#2823", title: "Name bit 63 of stateen1-3 SE1, SE2 and SE3", label: "fix(csr)", tag: "Fixes #2755", commits: 1, files: 20, file: "spec/std/isa/csr/hstateen1.yaml",
+          diff: [["@", "@@ -52,1 +52,1 @@ fields:"], ["-", "SE0:"], ["+", "SE1:"],
+            ["@", "@@ -59,5 +59,5 @@"], [" ", "  sw_write(csr_value): |"], ["-", "    if (CSR[mstateen1].SE0 == 1'b0){"], ["+", "    if (CSR[mstateen1].SE1 == 1'b0){"], [" ", "      return 0;"], [" ", "    }"], ["-", "    return csr_value.SE0;"], ["+", "    return csr_value.SE1;"]] } },
         { key: "r4", title: "Review on #2803", poster: { t: "thread", host: "github", title: "Review on riscv/riscv-unified-db #2803", end: "Merged",
           msgs: [{ who: "LakshyaBagani", text: "@ThinkOpenly could you review this when you have a chance? It moves the DCSR_*_TYPE params to Sdext for #2794.", me: true }, { who: "ThinkOpenly", text: "Thank you!" }, { who: "LakshyaBagani", text: "Thanks for the quick review @ThinkOpenly.", me: true }] } },
-        { key: "r5", title: "RISC-V Unified DB", poster: { t: "stat", big: "3", label: "pull requests merged", lines: ["Approved by maintainer ThinkOpenly", "Every changed line covered by tests", "A fourth, on xepc masking, in review"] } },
+        { key: "r5", title: "RISC-V Unified DB", poster: { t: "stat", big: "4", label: "pull requests merged", lines: ["Approved by ThinkOpenly and jordancarlin", "Every changed line covered by tests", "A fifth, on xepc masking, in review"] } },
       ],
     },
     {

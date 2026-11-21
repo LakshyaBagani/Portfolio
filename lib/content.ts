@@ -74,7 +74,7 @@ export type Chapter = { y: string; when: string; title: string; org: string; poi
 /** My story — newest first; the big year rolls back as you scroll */
 export const STORY: Chapter[] = [
   {
-    y: "2026", when: "Jun 2026 — Now", title: "MTS Intern", org: "Scaler AI Labs, Bengaluru", now: true,
+    y: "2026", when: "Jun 2026 — Now", title: "MTS Intern", org: "Arcfront, Bengaluru", now: true,
     points: [
       "Building production export pipelines for the Nexus platform: Google Workspace and Microsoft 365 exporters, each handling up to 45 TB a day.",
       "Raised file throughput 3.5× (4M → 14M files/hr), cut Ray cluster bootstrap 80% with a pre-built AWS AMI, and ended out-of-memory failures across a 2 PB corpus.",

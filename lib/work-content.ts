@@ -71,25 +71,25 @@ const distributed: StackPage = {
   intro: "Production pipelines and the clusters behind them: exporters that move tens of terabytes a day, Ray clusters that boot in minutes, and the tuning that keeps a 2 PB corpus moving.",
   projects: [
     {
-      kind: "Scaler AI Labs · Nexus", title: "Nexus export pipelines", sub: "Google Workspace & Microsoft 365 exporters",
+      kind: "Arcfront · Nexus", title: "Nexus export pipelines", sub: "Google Workspace & Microsoft 365 exporters",
       desc: "Production export pipelines for the Nexus platform: a Google Workspace exporter and a Microsoft 365 exporter, each handling up to 45 TB of data a day on a Ray cluster.",
       tags: ["Python", "Ray", "FastAPI", "Redis"], device: "mon", media: { mock: "ds-exporters" },
       note: "Replay of the exporter dashboard",
     },
     {
-      kind: "Scaler AI Labs · Throughput", title: "3.5× file throughput", sub: "4M → 14M files an hour",
+      kind: "Arcfront · Throughput", title: "3.5× file throughput", sub: "4M → 14M files an hour",
       desc: "Discovery and index builds were fighting over the same write-heavy database. Deferring the index builds until discovery completes took the pipeline from 4M to 14M files an hour.",
       tags: ["Python", "Database tuning", "Profiling"], device: "mon", media: { mock: "ds-throughput" },
       note: "Replay of the throughput dashboard",
     },
     {
-      kind: "Scaler AI Labs · Infrastructure", title: "Ray cluster bootstrap", sub: "66 → 13 minutes, 80% faster",
+      kind: "Arcfront · Infrastructure", title: "Ray cluster bootstrap", sub: "66 → 13 minutes, 80% faster",
       desc: "Every worker used to install its runtime as it booted. Baking the worker runtime into a pre-built AWS AMI cut Ray cluster bootstrap from 66 minutes to 13.",
       tags: ["Ray", "AWS EC2", "Pre-built AMI"], device: "mon", media: { mock: "ds-ray" },
       note: "Replay of a cluster coming up",
     },
     {
-      kind: "Scaler AI Labs · Reliability", title: "Out-of-memory, fixed", sub: "A 2 PB corpus, 40% fewer failures",
+      kind: "Arcfront · Reliability", title: "Out-of-memory, fixed", sub: "A 2 PB corpus, 40% fewer failures",
       desc: "Benchmarked file sizes across the 2 PB corpus and built a file-size × memory matrix that sets safe limits for every worker, then added a size check before dispatch. Failures and rerun time fell by 40%.",
       tags: ["Python", "Ray", "Benchmarking"], device: "mon", media: { mock: "ds-oom" },
       note: "Replay of the memory matrix",
@@ -327,18 +327,18 @@ const toolbox: WallPage = {
   template: "wall", door: 4, title: "Toolbox",
   tools: [
     // languages
-    T("Python", "Py", "Language", "Scaler AI Labs · InterviewBit", "The Nexus exporters and Ray jobs at Scaler AI Labs, the RL environments at InterviewBit, and merge requests to GNU Mailman.", "#1e3a5c", "#F4F1EA", "#FFD43B", .8, "code", L, ["import ray", "", "@ray.remote(memory=8 * GB)", "def export(batch):", "    for f in batch:", "        yield upload(f)"]),
+    T("Python", "Py", "Language", "Arcfront · InterviewBit", "The Nexus exporters and Ray jobs at Arcfront, the RL environments at InterviewBit, and merge requests to GNU Mailman.", "#1e3a5c", "#F4F1EA", "#FFD43B", .8, "code", L, ["import ray", "", "@ray.remote(memory=8 * GB)", "def export(batch):", "    for f in batch:", "        yield upload(f)"]),
     T("Java", "Jv", "Language", "EliteDocs · Trackaroo · Jenkins", "Spring Boot back-ends for EliteDocs and Trackaroo, and pull requests merged into Jenkins core.", "#7a2e12", "#FBEFE6", "#F89820", 1.5, "glyph", L),
     T("TypeScript", "TS", "Language", "Trackaroo · Office replicas", "The whole Next.js frontend at Trackaroo, the Office replicas at InterviewBit, and this site.", "#16457a", "#EEF4FB", "#7FB2EA", .8, "glyph", L),
     T("JavaScript", "JS", "Language", "Every frontend", "Interfaces and interactions in the browser, from EliteDocs to the app replicas.", "#E9D44C", "#1A1818", "#1A1818", 1.25, "code", L, ["const ws = new WebSocket(url);", "ws.onmessage = ({ data }) =>", "  render(JSON.parse(data));"]),
     T("SQL", "SQL", "Language", "EliteDocs · Nexus", "PostgreSQL schemas for EliteDocs, and the write-heavy database behind the 3.5× throughput fix.", "#203246", "#E6EEF7", "#8FB3D9", .8, "grid", L),
     // backend & distributed
-    T("FastAPI", "⚡", "Backend", "Scaler AI Labs", "Python services around the Nexus export pipelines.", "#0b5e57", "#E7F7F4", "#3FD2B8", 1.5, "code", B, ["@app.post(\"/exports\")", "async def start(job: Job):", "    await queue.put(job)", "    return {\"status\": \"queued\"}"]),
+    T("FastAPI", "⚡", "Backend", "Arcfront", "Python services around the Nexus export pipelines.", "#0b5e57", "#E7F7F4", "#3FD2B8", 1.5, "code", B, ["@app.post(\"/exports\")", "async def start(job: Job):", "    await queue.put(job)", "    return {\"status\": \"queued\"}"]),
     T("Spring Boot", "Sb", "Backend", "EliteDocs · Trackaroo", "REST APIs with JWT auth and role-based access across 15+ endpoints for EliteDocs, and the Trackaroo APIs.", "#2f5a1f", "#EFF6E8", "#8FD16B", .8, "rings", B),
     T("Django", "Dj", "Backend", "GNU Mailman · Postorius", "Merge requests to Postorius, Mailman's Django web interface.", "#0c3b2c", "#E7F3EC", "#44B78B", 1.33, "glyph", B),
     T("Node.js", "N", "Backend", "Services & tooling", "JavaScript on the server for APIs, scripts and build tooling.", "#24452a", "#EAF5EA", "#7CC36E", .8, "rings", B),
     T("Express", "ex", "Backend", "REST APIs", "Small, fast REST APIs on Node.", "#262523", "#EDEAE6", "#C4B0B0", 1.5, "code", B, ["app.get(\"/health\", (req, res) =>", "  res.json({ ok: true }));", "app.listen(3000);"]),
-    T("Ray", "Ray", "Distributed", "Scaler AI Labs · Nexus", "The cluster behind the Nexus exporters: bootstrap cut from 66 to 13 minutes with a pre-built AMI.", "#0a3d68", "#E8F3FD", "#3FA9F5", .8, "rings", B),
+    T("Ray", "Ray", "Distributed", "Arcfront · Nexus", "The cluster behind the Nexus exporters: bootstrap cut from 66 to 13 minutes with a pre-built AMI.", "#0a3d68", "#E8F3FD", "#3FA9F5", .8, "rings", B),
     T("Redis Pub/Sub", "Rp", "Messaging", "InterviewBit · RL personas", "The channels multi-environment RL personas use to talk to each other.", "#5b1714", "#FBECEA", "#FF6B5E", 1.5, "code", B, ["SUBSCRIBE env.crm env.tickets", "PUBLISH env.tickets \\", "  '{\"ticket\": 4182, \"tier\": 2}'"]),
     // frontend
     T("React", "⚛", "Frontend", "EliteDocs · Office replicas", "EliteDocs, and the Excel, PowerPoint and FactSet replicas with 40+ complex interactions.", "#20232a", "#E9F8FC", "#61DAFB", 1.33, "rings", F),
@@ -346,12 +346,12 @@ const toolbox: WallPage = {
     T("Tailwind CSS", "tw", "Frontend", "Interfaces", "Utility-first styling for fast, consistent interfaces.", "#0c3550", "#E8F7FE", "#38BDF8", 1.5, "grid", F),
     // databases
     T("PostgreSQL", "Pg", "Database", "EliteDocs", "The relational store behind EliteDocs: patients, doctors, consultations and payments.", "#1f3d6e", "#EAF0FA", "#7EA3E6", .8, "code", D, ["SELECT d.name, count(*)", "FROM consultations c", "JOIN doctors d USING (doctor_id)", "GROUP BY d.name;"]),
-    T("Redis", "Rd", "Database", "Nexus · RL personas", "Fast shared state and queues, at Scaler AI Labs and InterviewBit.", "#8a1f1a", "#FDECEA", "#FFB4AC", 1.33, "glyph", D),
+    T("Redis", "Rd", "Database", "Nexus · RL personas", "Fast shared state and queues, at Arcfront and InterviewBit.", "#8a1f1a", "#FDECEA", "#FFB4AC", 1.33, "glyph", D),
     T("Prisma ORM", "◭", "Database", "TypeScript back-ends", "Typed database access for Node and TypeScript projects.", "#1b2232", "#EEF1F7", "#9AA7C7", .8, "grid", D),
     T("Supabase", "Sb", "Database", "Side projects", "Postgres with auth and storage for quick builds.", "#0f3324", "#E7F8EF", "#3ECF8E", 1.5, "rings", D),
     T("Firebase", "Fb", "Database", "Side projects", "Realtime data and auth for prototypes.", "#4a2a05", "#FFF4E0", "#FFCA28", .8, "glyph", D),
     // cloud & devops
-    T("AWS · EC2 & AMI", "aws", "Cloud", "Scaler AI Labs", "EC2 workers for the Ray cluster, booting from a pre-built AMI with the runtime baked in.", "#232F3E", "#F5F1EA", "#FF9900", 1.5, "code", C, ["aws ec2 create-image \\", "  --instance-id i-0ray…worker \\", "  --name ray-worker-runtime"]),
+    T("AWS · EC2 & AMI", "aws", "Cloud", "Arcfront", "EC2 workers for the Ray cluster, booting from a pre-built AMI with the runtime baked in.", "#232F3E", "#F5F1EA", "#FF9900", 1.5, "code", C, ["aws ec2 create-image \\", "  --instance-id i-0ray…worker \\", "  --name ray-worker-runtime"]),
     T("Docker", "Dk", "DevOps", "EliteDocs", "Containerised the EliteDocs services for repeatable builds and deploys.", "#0b3b66", "#E8F3FD", "#2496ED", .8, "rings", C),
     T("Docker Compose", "dc", "DevOps", "Local stacks", "The whole stack, API, database and cache, up with one command.", "#103049", "#E8F1F8", "#7CC0F2", 1.33, "code", C, ["services:", "  api:   { build: ., ports: [\"8080:8080\"] }", "  db:    { image: postgres:16 }", "  cache: { image: redis:7 }"]),
     T("GitHub Actions", "GA", "DevOps", "CI for every repo", "Tests and builds on every push.", "#13233f", "#EAF0FB", "#79A8FF", .8, "grid", C),

@@ -226,10 +226,10 @@ const opensource: HungPage = {
   worlds: [
     {
       k: "riscv", name: "RISC-V", em: "Unified DB", label: "RISC-V Unified DB", kicker: "Pull requests · RISC-V ISA spec",
-      desc: "Four fixes merged into the RISC-V Unified Database, the machine-readable RISC-V specification that docs and tools are generated from. The dcsr parameters now sit under Sdext, MRET and SRET read their return address the way the spec requires, mtvec and stvec enforce alignment parameters that were never read, and bit 63 of the stateen1-3 registers now carries the SE1-SE3 names the Sail model uses.",
+      desc: "Seven fixes merged into the RISC-V Unified Database, the machine-readable RISC-V specification that docs and tools are generated from. They cover the debug and trap CSRs (dcsr, xepc, mtvec and stvec), how MRET and SRET read their return address, the mcyclecfg and minstretcfg inhibit bits on RV32, the stateen1-3 bit names, and the removal of the Ssube, Ssu32xl and Sstvecv extensions.",
       tags: ["RISC-V ISA", "YAML & IDL", "Ruby"], bg: "#EFE5CB", fg: "#1B2150", acc: "#2B3A8C",
       items: [
-        { key: "r0", title: "RISC-V Unified DB", poster: { t: "cover", repo: R, name: "RISC-V", em: "Unified DB", lang: "YAML · IDL · Ruby", big: "4", bigLabel: "pull requests merged", lines: ["The RISC-V spec as data, for docs and tools", "dcsr · xRET · mtvec & stvec · stateen"] } },
+        { key: "r0", title: "RISC-V Unified DB", poster: { t: "cover", repo: R, name: "RISC-V", em: "Unified DB", lang: "YAML · IDL · Ruby", big: "7", bigLabel: "pull requests merged", lines: ["The RISC-V spec as data, for docs and tools", "Debug, trap and counter CSRs · extensions"] } },
         { key: "r1", title: "#2803: dcsr parameters under Sdext", poster: { ...RV, t: "pr", no: "#2803", title: "Define DCSR_*_TYPE params under Sdext", label: "fix(data)", tag: "Fixes #2794", commits: 3, files: 7, file: "spec/std/isa/param/DCSR_STEPIE_TYPE.yaml",
           diff: [["@", "@@ -18,6 +16,6 @@"], [" ", "schema:"], [" ", "  type: string"], ["-", "  enum: [read-only-0, read-only-1, rw]"], ["+", "  enum: [read-only-0, rw]"], [" ", "definedBy:"], [" ", "  extension:"], ["-", "    name: Sdtrig"], ["+", "    name: Sdext"]] } },
         { key: "r2", title: "#2808: xRET reads xepc through sw_read", poster: { ...RV, t: "pr", no: "#2808", title: "Read xepc through sw_read on xRET", label: "fix(inst)", tag: "Part of #2637", commits: 1, files: 3, file: "spec/std/isa/inst/S/sret.yaml",
@@ -243,7 +243,7 @@ const opensource: HungPage = {
             ["@", "@@ -59,5 +59,5 @@"], [" ", "  sw_write(csr_value): |"], ["-", "    if (CSR[mstateen1].SE0 == 1'b0){"], ["+", "    if (CSR[mstateen1].SE1 == 1'b0){"], [" ", "      return 0;"], [" ", "    }"], ["-", "    return csr_value.SE0;"], ["+", "    return csr_value.SE1;"]] } },
         { key: "r4", title: "Review on #2803", poster: { t: "thread", host: "github", title: "Review on riscv/riscv-unified-db #2803", end: "Merged",
           msgs: [{ who: "LakshyaBagani", text: "@ThinkOpenly could you review this when you have a chance? It moves the DCSR_*_TYPE params to Sdext for #2794.", me: true }, { who: "ThinkOpenly", text: "Thank you!" }, { who: "LakshyaBagani", text: "Thanks for the quick review @ThinkOpenly.", me: true }] } },
-        { key: "r5", title: "RISC-V Unified DB", poster: { t: "stat", big: "4", label: "pull requests merged", lines: ["Approved by ThinkOpenly and jordancarlin", "Every changed line covered by tests", "A fifth, on xepc masking, in review"] } },
+        { key: "r5", title: "RISC-V Unified DB", poster: { t: "stat", big: "7", label: "pull requests merged", lines: ["Approved by ThinkOpenly and jordancarlin", "Every changed line covered by tests", "An eighth, on pointer masking, in review"] } },
       ],
     },
     {
@@ -287,7 +287,7 @@ const opensource: HungPage = {
             { t: "step", n: "02", of: "05", title: "Read the spec", body: "Check each behaviour against the RISC-V privileged specification before touching the data.", glyph: "§" },
             { t: "step", n: "03", of: "05", title: "Split it up", body: "One small pull request per fix, as agreed in the issue: xepc masking, xRET reads and trap-vector alignment.", glyph: "3" },
             { t: "step", n: "04", of: "05", title: "Covered", body: "Codecov reports every changed line covered by tests.", glyph: "CI" },
-            { t: "step", n: "05", of: "05", title: "Merged", body: "The xRET and trap-vector fixes are merged into main; the xepc masking fix is in review.", glyph: "✓" },
+            { t: "step", n: "05", of: "05", title: "Merged", body: "All three, the xRET, trap-vector and xepc masking fixes, are merged into main.", glyph: "✓" },
           ] } },
         { key: "d0", title: "Jenkins: issue to merge", poster: { t: "step", n: "01", of: "05", title: "Jenkins: issue to merge", body: "Issue #16678 in Jenkins core, from the bug report to a merged fix.", glyph: "J" },
           deck: { title: "Jenkins: issue to merge", slides: [

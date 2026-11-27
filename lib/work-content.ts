@@ -216,12 +216,12 @@ const aienv: StackPage = {
 /* =====================================================================
    3 · Open Source — the "prints" are contribution posters
    ===================================================================== */
-const R = "riscv/riscv-unified-db", J = "jenkinsci/jenkins", M = "mailman/postorius";
+const R = "riscv/riscv-unified-db", J = "jenkinsci/jenkins", H = "jenkinsci/helm-charts", M = "mailman/postorius";
 /** the RISC-V prints are the real pull requests: hunks, commit counts and the review are as merged on GitHub */
 const RV = { host: "github", repo: R, by: "ThinkOpenly", base: "main", foot: "Approved by ThinkOpenly" } as const;
 const opensource: HungPage = {
   template: "hung", door: 2, title: "Open Source",
-  intro: "Contributions to three long-running projects: fixes merged into the RISC-V specification database and Jenkins core, and merge requests in review on GNU Mailman. Each project hangs on its own line, in its own colours: scroll to walk along it, click any card to read it up close.",
+  intro: "Contributions to three long-running projects: fixes merged into the RISC-V specification database, Jenkins core and the Jenkins Helm chart, and merge requests in review on GNU Mailman. Each project hangs on its own line, in its own colours: scroll to walk along it, click any card to read it up close.",
   how: "Scroll to walk the line",
   worlds: [
     {
@@ -247,11 +247,11 @@ const opensource: HungPage = {
       ],
     },
     {
-      k: "jenkins", name: "Jenkins", em: "core", label: "Jenkins core", kicker: "Pull requests · Jelly & JavaScript",
-      desc: "Two pull requests merged into Jenkins core, each after several rounds of maintainer review. The directory browser's breadcrumbs now show a job's display name, and Build Now no longer says “Build Scheduled” when a disabled multibranch project rejects the build.",
-      tags: ["Jelly", "JavaScript", "Maintainer review"], bg: "#1A1818", fg: "#E8E4E0", acc: "#C4B0B0",
+      k: "jenkins", name: "Jenkins", em: "core & Helm", label: "Jenkins", kicker: "Pull requests · Jelly, JavaScript & Helm",
+      desc: "Three pull requests merged into Jenkins, each after maintainer review: two in Jenkins core and one in the official Jenkins Helm chart. The directory browser's breadcrumbs now show a job's display name, Build Now no longer says “Build Scheduled” when a disabled multibranch project rejects the build, and the Helm chart no longer puts capabilities in the pod securityContext, a bug open since 2022 that made Helm 4 reject the chart.",
+      tags: ["Jelly", "JavaScript", "Helm", "Kubernetes"], bg: "#1A1818", fg: "#E8E4E0", acc: "#C4B0B0",
       items: [
-        { key: "j0", title: "Jenkins core", poster: { t: "cover", repo: J, name: "Jenkins", em: "core", lang: "Jelly · JavaScript", big: "2", bigLabel: "pull requests merged", lines: ["Reviewed by four Jenkins maintainers", "Directory browser · Build Now"] } },
+        { key: "j0", title: "Jenkins", poster: { t: "cover", repo: J, name: "Jenkins", em: "core & Helm", lang: "Jelly · JavaScript · Helm", big: "3", bigLabel: "pull requests merged", lines: ["Reviewed by four Jenkins maintainers", "Directory browser · Build Now · Helm chart"] } },
         { key: "j1", title: "#25924: display names in breadcrumbs", poster: { t: "pr", host: "github", repo: J, no: "#25924", title: "Use display name in directory browser breadcrumbs", label: "web-ui", tag: "Fixes #16765", by: "MarkEWaite", commits: 4, files: 1, file: "core/src/main/resources/hudson/model/DirectoryBrowserSupport/dir.jelly", foot: "Approved by mawinter69, timja and MarkEWaite",
           diff: [["@", "@@ -34,7 +34,9 @@ THE SOFTWARE."], [" ", "<!-- parent path -->"], [" ", "  <div class=\"parentPath\">"], [" ", "    <form>"], ["-", "      <a href=\"${topPath}\">${it.owner.name}</a> /"], ["+", "      <a href=\"${topPath}\">"], ["+", "        ${it.owner.displayName}"], ["+", "      </a> /"], [" ", "      <j:forEach var=\"p\" items=\"${parentPath}\">"], [" ", "        <a href=\"${p.href}\">${p.title}</a>"], [" ", "        /"]] } },
         { key: "j2", title: "Review on #25924", poster: { t: "thread", host: "github", title: "Review on jenkinsci/jenkins #25924", end: "Merged",
@@ -260,7 +260,9 @@ const opensource: HungPage = {
           diff: [["@", "@@ -14,7 +14,7 @@ Behaviour.specify("], [" ", "  method: \"post\","], [" ", "  headers: crumb.wrap({}),"], [" ", "}).then((rsp) => {"], ["-", "  if (rsp.ok) {"], ["+", "  if (rsp.status === 201) {"], [" ", "    notificationBar.show(message, notificationBar.SUCCESS);"], [" ", "  } else {"], [" ", "    notificationBar.show(failure, notificationBar.ERROR);"]] } },
         { key: "j4", title: "Review on #26117", poster: { t: "thread", host: "github", title: "Review on jenkinsci/jenkins #26117", end: "Merged",
           msgs: [{ who: "daniel-beck", text: "Why did you change both files? Wouldn't one of the changes be enough?" }, { who: "LakshyaBagani", text: "Good question. Either change alone would fix the issue.", me: true }, { who: "timja", text: "You already have an explicit signal. 201 created that’s all you need" }] } },
-        { key: "j5", title: "Jenkins core", poster: { t: "stat", big: "2", label: "pull requests merged", lines: ["Merged by MarkEWaite and timja", "Every review comment answered", "Before and after screenshots for UI changes"] } },
+        { key: "j6", title: "#1849: no capabilities at pod level", poster: { t: "pr", host: "github", repo: H, no: "#1849", title: "Stop rendering capabilities in the pod securityContext", label: "fix(jenkins)", tag: "Fixes #736", by: "timja", commits: 1, files: 8, file: "charts/jenkins/templates/jenkins-controller-statefulset.yaml", foot: "Approved by timja",
+          diff: [["@", "@@ -99,10 +99,6 @@ spec:"], [" ", "    fsGroupChangePolicy: {{ .Values.controller.fsGroupChangePolicy }}"], [" ", "    runAsNonRoot: true"], [" ", "  {{- end }}"], ["-", "  {{- if .Values.controller.securityContextCapabilities }}"], ["-", "    capabilities:"], ["-", "      {{- toYaml .Values.controller.securityContextCapabilities | nindent 10 }}"], ["-", "  {{- end }}"], [" ", "{{- end }}"]] } },
+        { key: "j5", title: "Jenkins", poster: { t: "stat", big: "3", label: "pull requests merged", lines: ["Merged by MarkEWaite and timja", "Every review comment answered", "Two more Helm chart fixes in review"] } },
       ],
     },
     {

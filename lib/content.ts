@@ -38,7 +38,7 @@ export const DOORS: Door[] = [
   {
     slug: "app-developer", nav: "App Development", plate: "App Developer", title: "App Developer",
     color: "#4a3540", colorDk: "#3f2d37", tagline: "Apps, from the first idea to launch",
-    points: ["Product flows & interfaces", "Real-time chat & video", "Payments & secure auth", "API-first back-ends", "Built for every screen"],
+    points: ["Android & React Native", "Voice-first billing", "Splits, balances & settle-up", "Offline-first sync", "API-first back-ends"],
   },
   {
     slug: "open-source", nav: "Open Source", plate: "Open Source", title: "Open Source",

@@ -177,13 +177,13 @@ const webdev: StackPage = {
 };
 
 /* =====================================================================
-   1 · App Development — Galla's Android app plays a real recording from
-   the emulator (public/work/app/galla.mp4). The RL environment cards
-   after it are still the earlier AI Environments work.
+   1 · App Development — two phone apps, each playing a real recording
+   from the Android emulator: Galla (public/work/app/galla.mp4) and
+   Hisaab (public/work/app/hisaab.mp4).
    ===================================================================== */
 const aienv: StackPage = {
   template: "stack", door: 1, title: "App Development",
-  intro: "Apps for the phone in someone's hand: voice and touch first, native where it matters, from printing a receipt to sharing a bill, and quick enough for a busy shop counter.",
+  intro: "Apps for the phone in someone's hand: voice billing quick enough for a busy shop counter, and bill splitting for friends and flatmates that keeps working offline. Touch first, native where it matters.",
   projects: [
     {
       kind: "Product · Android app", title: "Galla", sub: "Voice billing on Android",
@@ -193,22 +193,11 @@ const aienv: StackPage = {
       link: { href: "https://getgalla.in", label: "Visit live site" },
     },
     {
-      kind: "InterviewBit · Frontier labs", title: "RL environments", sub: "12+ environments across 3 benchmark suites",
-      desc: "Designed and built 12+ reinforcement-learning environments for frontier AI labs, spread across three benchmark suites, each a working app with tasks for an agent to complete and checks that score its run.",
-      tags: ["Python", "Reinforcement learning", "Benchmarks"], device: "mon", media: { mock: "ai-envs" },
-      note: "Replay of the environment registry",
-    },
-    {
-      kind: "InterviewBit · Multi-environment", title: "RL personas", sub: "A Tier 2 support rep, across environments",
-      desc: "Personas that work across several environments at once, such as a Tier 2 customer-support representative, with the environments communicating over Redis Pub/Sub.",
-      tags: ["Redis Pub/Sub", "Python", "Multi-agent"], device: "mon", media: { mock: "ai-personas" },
-      note: "Replay of a persona's episode",
-    },
-    {
-      kind: "InterviewBit · Replicas", title: "High-fidelity app replicas", sub: "Built for training and evaluation",
-      desc: "Faithful replicas of the apps agents have to master, down to their state and their edge cases, so models are trained and evaluated on realistic work.",
-      tags: ["React", "TypeScript", "Evaluation"], device: "mon", media: { mock: "ai-replica" },
-      note: "Replay of an agent working a replica",
+      kind: "Personal project · Expense splitting", title: "Hisaab", sub: "Split bills with friends and flatmates",
+      desc: "Add an expense with a group or a few friends, pick who paid, and split it equally, by exact amounts, percentages, shares or adjustments, even across several payers. Balances are tracked person to person, with optional debt simplification, and settle-ups clear them. Friends come from your contacts, and it works offline. React Native and Expo on a Fastify, Drizzle and Neon Postgres API.",
+      tags: ["React Native", "Expo", "TypeScript", "Fastify", "Drizzle", "Neon Postgres"], device: "phone",
+      media: { video: "/work/app/hisaab.mp4", poster: "/work/app/hisaab.jpg", bg: "#f4f6f2", sbar: "#18241f" },
+      link: { href: "https://github.com/LakshyaBagani/hisaab", label: "View on GitHub" },
     },
   ],
 };

@@ -210,7 +210,7 @@ const R = "riscv/riscv-unified-db", J = "jenkinsci/jenkins", H = "jenkinsci/helm
 const RV = { host: "github", repo: R, by: "ThinkOpenly", base: "main", foot: "Approved by ThinkOpenly" } as const;
 const opensource: HungPage = {
   template: "hung", door: 2, title: "Open Source",
-  intro: "Contributions to three long-running projects: fixes merged into the RISC-V specification database, Jenkins core and the Jenkins Helm chart, and merge requests in review on GNU Mailman. Each project hangs on its own line, in its own colours: scroll to walk along it, click any card to read it up close.",
+  intro: "Contributions to three long-running projects: fixes merged into the RISC-V specification database and Jenkins, and merge requests in review on GNU Mailman. Each project hangs on its own line, in its own colours: scroll to walk along it, click any card to read it up close.",
   how: "Scroll to walk the line",
   worlds: [
     {
@@ -236,11 +236,11 @@ const opensource: HungPage = {
       ],
     },
     {
-      k: "jenkins", name: "Jenkins", em: "core & Helm", label: "Jenkins", kicker: "Pull requests · Jelly, JavaScript & Helm",
-      desc: "Three pull requests merged into Jenkins, each after maintainer review: two in Jenkins core and one in the official Jenkins Helm chart. The directory browser's breadcrumbs now show a job's display name, Build Now no longer says “Build Scheduled” when a disabled multibranch project rejects the build, and the Helm chart no longer puts capabilities in the pod securityContext, a bug open since 2022 that made Helm 4 reject the chart.",
+      k: "jenkins", name: "Jenkins", label: "Jenkins", kicker: "Pull requests · Jenkins projects",
+      desc: "Three pull requests merged into Jenkins, each after maintainer review. The directory browser's breadcrumbs now show a job's display name, Build Now no longer says “Build Scheduled” when a disabled multibranch project rejects the build, and the Helm chart no longer puts capabilities in the pod securityContext, a bug open since 2022 that made Helm 4 reject the chart.",
       tags: ["Jelly", "JavaScript", "Helm", "Kubernetes"], bg: "#1A1818", fg: "#E8E4E0", acc: "#C4B0B0",
       items: [
-        { key: "j0", title: "Jenkins", poster: { t: "cover", repo: J, name: "Jenkins", em: "core & Helm", lang: "Jelly · JavaScript · Helm", big: "3", bigLabel: "pull requests merged", lines: ["Reviewed by four Jenkins maintainers", "Directory browser · Build Now · Helm chart"] } },
+        { key: "j0", title: "Jenkins", poster: { t: "cover", repo: "jenkinsci", name: "Jenkins", lang: "Jelly · JavaScript · Helm", big: "3", bigLabel: "pull requests merged", lines: ["Reviewed by four Jenkins maintainers", "Directory browser · Build Now · Helm chart"] } },
         { key: "j1", title: "#25924: display names in breadcrumbs", poster: { t: "pr", host: "github", repo: J, no: "#25924", title: "Use display name in directory browser breadcrumbs", label: "web-ui", tag: "Fixes #16765", by: "MarkEWaite", commits: 4, files: 1, file: "core/src/main/resources/hudson/model/DirectoryBrowserSupport/dir.jelly", foot: "Approved by mawinter69, timja and MarkEWaite",
           diff: [["@", "@@ -34,7 +34,9 @@ THE SOFTWARE."], [" ", "<!-- parent path -->"], [" ", "  <div class=\"parentPath\">"], [" ", "    <form>"], ["-", "      <a href=\"${topPath}\">${it.owner.name}</a> /"], ["+", "      <a href=\"${topPath}\">"], ["+", "        ${it.owner.displayName}"], ["+", "      </a> /"], [" ", "      <j:forEach var=\"p\" items=\"${parentPath}\">"], [" ", "        <a href=\"${p.href}\">${p.title}</a>"], [" ", "        /"]] } },
         { key: "j2", title: "Review on #25924", poster: { t: "thread", host: "github", title: "Review on jenkinsci/jenkins #25924", end: "Merged",

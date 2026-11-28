@@ -63,7 +63,6 @@ export type WallPage = { template: "wall"; door: number; title: string; tools: T
 
 export type WorkContent = StackPage | HungPage | WallPage;
 
-const GH = "https://github.com/LakshyaBagani";
 
 /* =====================================================================
    0 · Distributed Systems

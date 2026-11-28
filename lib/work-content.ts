@@ -158,10 +158,11 @@ const webdev: StackPage = {
     },
     {
       kind: "Personal project · Social", title: "One Prompt", sub: "One prompt, posted everywhere",
-      desc: "Write one idea and AI drafts a post for each network, within its character limit: LinkedIn, X, Threads, Instagram and Reddit. Connect accounts once with OAuth, edit the drafts and publish to all of them in one click. Scheduled posts, post history and plan quotas run on a Go API with PostgreSQL and JWT auth.",
-      tags: ["React", "TypeScript", "Go", "PostgreSQL", "OAuth", "OpenAI API"], device: "mon",
+      desc: "Write one idea and a dedicated generator for each network drafts the post, within its limits: LinkedIn, X, Threads, Instagram and Reddit. Drafts stream in within seconds, pass a check for AI-sounding writing, and can be regenerated or rewritten. Connect accounts with OAuth and publish to all of them at once or on a schedule. It runs on a Go API with Neon Postgres and JWT auth.",
+      tags: ["React", "TypeScript", "Go", "Neon Postgres", "OAuth", "OpenAI API"], device: "mon",
       media: { video: "/work/web/oneprompt.mp4", poster: "/work/web/oneprompt.jpg", ar: "16 / 10", bg: "#0c1018" },
-      link: { href: "https://github.com/LakshyaBagani/One-Prompt", label: "View on GitHub" },
+      link: { href: "https://one-prompt-theta.vercel.app", label: "Visit live site" },
+      repo: "https://github.com/LakshyaBagani/One-Prompt",
     },
     {
       kind: "Personal project · Travel", title: "AI Trip Generator", sub: "A trip plan in about five seconds",

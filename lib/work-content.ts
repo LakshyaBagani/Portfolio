@@ -109,7 +109,7 @@ export const fullstack: StackPage = {
   projects: [
     {
       kind: "Personal project · Health", title: "EliteDocs", sub: "AI-powered doctor consultations",
-      desc: "A consultation platform with JWT auth and role-based access across 15+ endpoints, Gemini summaries of medical reports that cut review time by 60%, WebSocket chat, WebRTC video calls and Razorpay payments with webhook verification.",
+      desc: "A consultation platform with JWT auth and role-based access across 15+ endpoints, Gemini summaries of medical reports that cut review time by 60%, WebSocket chat and WebRTC video calls.",
       tags: ["React", "Spring Boot", "PostgreSQL", "Docker"], device: "phone", media: { mock: "fs-elitedocs" },
       link: { href: GH, label: "View on GitHub" },
       icon: { glyph: "E", bg: "linear-gradient(145deg,#2f6f5e,#173c33)", fg: "#E9F5EF" },

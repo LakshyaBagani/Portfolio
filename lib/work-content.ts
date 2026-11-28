@@ -163,8 +163,8 @@ const webdev: StackPage = {
     },
     {
       kind: "Personal project · Travel", title: "AI Trip Generator", sub: "A trip plan in about five seconds",
-      desc: "Pick a destination, the number of days, a budget and who's travelling, and OpenAI plans the trip, streamed as it writes: hotels with prices and ratings, then places to visit day by day, with photos from Wikipedia and Openverse. The OpenAI call runs in a serverless function, so the key never reaches the browser. Sign in with Google, and each trip is saved to your own account in Supabase.",
-      tags: ["React", "OpenAI API", "Supabase", "Vercel Functions", "Google OAuth"], device: "mon",
+      desc: "Pick a destination, the number of days, a budget and who's travelling, and OpenAI plans the trip, streamed as it writes: hotels with prices and ratings, then places to visit day by day, with photos from Wikipedia and Openverse. The OpenAI call runs in a serverless function, so the key never reaches the browser. Sign in with Google or email through Neon Auth, and each trip is saved to your own account in Neon Postgres.",
+      tags: ["React", "OpenAI API", "Neon Postgres", "Neon Auth", "Vercel Functions"], device: "mon",
       media: { video: "/work/web/trip.mp4", poster: "/work/web/trip.jpg", ar: "16 / 10", bg: "#eef2ff" },
       link: { href: "https://ai-trip-generator-taupe.vercel.app", label: "Visit live site" },
       repo: "https://github.com/LakshyaBagani/AI_TRIP_GENERATOR",

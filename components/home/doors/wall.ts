@@ -381,11 +381,24 @@ export function mountDoors({ sec, badge, veil, shade, passage, wallv }: Els, sta
     document.title = DOC_TITLE;
     const left = cur, d = doors[left];
     toWall({ wall: "exit" });
+    // While you were in the room the wall sat zoomed in many times over, so the browser kept only the doorway's
+    // pixels and dropped the rest (casings, texture, whole doors). Zooming out from there showed the wall half
+    // drawn. So, still hidden behind the room, put the wall back at full size for a few frames to have it painted
+    // again in full (re-promoting its layer at scale 1, exactly as the walk-in starts), then return to the zoom.
+    const X0 = X, Y0 = Y, S0 = S;
+    if (!reduced) {
+      wallv.style.opacity = ".999";                 // not fully opaque: the wall underneath counts as visible and gets painted
+      sec.classList.remove("lift"); setT(0, 0, 1);
+      // a fresh layer, rastered at scale 1; it stays at full size for the whole time the room still covers the screen
+      requestAnimationFrame(() => { if (alive) sec.classList.add("lift"); });
+    }
     later(() => {
+      setT(X0, Y0, S0);                             // back to the zoom, just before the room fades away
+      wallv.style.opacity = "";
       wallv.classList.remove("on");
       later(() => {
         cancelAnimationFrame(walkRaf);
-        const X0 = X, Y0 = Y, S0 = S, t0 = performance.now(), D = reduced ? 1 : 1300;
+        const t0 = performance.now(), D = reduced ? 1 : 1300;
         const step = (now: number) => {
           walkRaf = 0;
           if (!alive) return;
@@ -453,7 +466,7 @@ export function mountDoors({ sec, badge, veil, shade, passage, wallv }: Els, sta
     cancelAnimationFrame(walkRaf); walkRaf = 0; passage.hidden = true; shade.hidden = true;
     sec.classList.remove("through"); sec.style.transform = ""; sec.style.transformOrigin = ""; X = Y = 0; S = 1; reveal(false);
     veil.classList.remove("on"); veil.hidden = true; veil.style.clipPath = ""; veil.style.transition = ""; veil.innerHTML = ""; veil.className = "veil";
-    wallv.classList.remove("on", "live"); wallv.style.clipPath = "";
+    wallv.classList.remove("on", "live"); wallv.style.clipPath = ""; wallv.style.opacity = "";
     cord()?.classList.remove("away"); hdr()?.classList.remove("away");
     doors.forEach(d => d.s.set(0));
     if (busy) { busy = false; holdScroll(false); }
@@ -490,7 +503,7 @@ export function mountDoors({ sec, badge, veil, shade, passage, wallv }: Els, sta
     dinfo.classList.remove("on"); dinfo.removeAttribute("style"); dH.textContent = ""; dT.textContent = ""; dP.replaceChildren();
     mDots?.querySelectorAll("i").forEach((d, k) => d.classList.toggle("on", k === 0));
     badge.classList.remove("on"); badge.style.transform = "";
-    wallv.classList.remove("on", "live");
+    wallv.classList.remove("on", "live"); wallv.style.opacity = "";
     veil.hidden = true; veil.className = "veil"; veil.removeAttribute("style"); shade.hidden = true; passage.hidden = true;
   };
 }

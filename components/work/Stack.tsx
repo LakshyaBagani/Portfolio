@@ -174,7 +174,10 @@ export default function Stack({ projects }: { projects: Project[] }) {
               <p className="desc">{p.desc}</p>
               <ul className="tags">{p.tags.map(t => <li key={t}>{t}</li>)}</ul>
               {p.link
-                ? <a className="live" href={p.link.href} target="_blank" rel="noopener noreferrer">{p.link.label} {ARROW}</a>
+                ? <div className="actions">
+                    <a className="live" href={p.link.href} target="_blank" rel="noopener noreferrer">{p.link.label} {ARROW}</a>
+                    {p.repo ? <a className="live live--ghost" href={p.repo} target="_blank" rel="noopener noreferrer">View on GitHub {ARROW}</a> : null}
+                  </div>
                 : <span className="note">{p.note || "Screen recording of the build"}</span>}
             </div>
             <Device p={p} />

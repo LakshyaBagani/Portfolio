@@ -182,7 +182,7 @@ export function WebOnePrompt() {
   );
 }
 
-/* ---------------- 4 · AI Trip Generator — Gemini-planned itineraries ---------------- */
+/* ---------------- 4 · AI Trip Generator — OpenAI-planned itineraries ---------------- */
 const T_HOTELS: [string, string, string][] = [["Rambagh Palace", "₹₹₹ · 4.8 ★", "linear-gradient(135deg,#f6c08a,#c4604a)"], ["Hotel Pearl Palace", "₹ · 4.6 ★", "linear-gradient(135deg,#9ed0c9,#3f7f86)"], ["Alsisar Haveli", "₹₹ · 4.5 ★", "linear-gradient(135deg,#f4d58d,#b07a3c)"]];
 const T_PLACES: [string, string, string][] = [["Amber Fort", "Morning · 3 h", "linear-gradient(135deg,#f1b07a,#a8543a)"], ["Hawa Mahal", "Noon · 1 h", "linear-gradient(135deg,#f5a6a0,#c25a64)"], ["Nahargarh sunset", "Evening · 2 h", "linear-gradient(135deg,#ffcf8a,#7b4b8f)"]];
 export function WebTrip() {
@@ -213,7 +213,7 @@ export function WebTrip() {
             <label><span>Budget</span><span className="ui-row" style={{ gap: 6 }}>{["Cheap", "Moderate", "Luxury"].map((b, i) => <span key={b} className={"t-opt" + (i === 1 ? " on" : "")}>{b}</span>)}</span></label>
             <label><span>Travelling with</span><span className="ui-row" style={{ gap: 6, flexWrap: "wrap" }}>{["Just me", "Couple", "Friends", "Family"].map((b, i) => <span key={b} className={"t-opt" + (i === 2 ? " on" : "")}>{b}</span>)}</span></label>
             <span className="t-btn">Generate trip</span>
-            <div className="t-prog" style={{ opacity: 0 }}><small>Planning with Gemini…</small><span><i /></span></div>
+            <div className="t-prog" style={{ opacity: 0 }}><small>Planning with OpenAI…</small><span><i /></span></div>
           </div>
           <div className="ui-col ui-grow t-res" style={{ gap: 16, opacity: 0 }}>
             <div className="t-hero"><b>3 days in Jaipur</b><span>Moderate · Friends · Nov 21–23</span></div>

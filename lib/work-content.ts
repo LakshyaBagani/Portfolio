@@ -25,6 +25,8 @@ export type Project = {
   device: "mon" | "phone";
   media: Media;
   link?: { href: string; label: string };
+  /** optional GitHub repo, shown as a second, outlined button beside `link` */
+  repo?: string;
   note?: string;
   /** phone cards show the app's icon beside the meta line */
   icon?: { glyph: string; bg: string; fg: string };
@@ -157,14 +159,15 @@ const webdev: StackPage = {
       desc: "Write one idea and AI drafts a post for each network, within its character limit: LinkedIn, X, Threads, Instagram and Reddit. Connect accounts once with OAuth, edit the drafts and publish to all of them in one click. Post history and plan quotas run on an Express, Prisma and JWT API.",
       tags: ["React", "TypeScript", "Express", "Prisma", "OAuth", "OpenRouter"], device: "mon",
       media: { video: "/work/web/oneprompt.mp4", poster: "/work/web/oneprompt.jpg", ar: "16 / 10", bg: "#0c1018" },
-      link: { href: "https://github.com/LakshyaBagani/ONE_PROMPT_BACKEND", label: "View on GitHub" },
+      link: { href: "https://github.com/LakshyaBagani/One-Prompt", label: "View on GitHub" },
     },
     {
-      kind: "Personal project · Travel", title: "AI Trip Generator", sub: "Gemini-planned itineraries",
-      desc: "Pick a destination, the number of days, a budget and who's travelling, and Gemini plans the trip: hotels with prices and ratings, then places to visit day by day, with photos from Google Places. Sign in with Google, and every trip is saved to Firestore under My Trips.",
-      tags: ["React", "Gemini API", "Firestore", "Google Places", "Google OAuth"], device: "mon",
+      kind: "Personal project · Travel", title: "AI Trip Generator", sub: "A trip plan in about five seconds",
+      desc: "Pick a destination, the number of days, a budget and who's travelling, and OpenAI plans the trip, streamed as it writes: hotels with prices and ratings, then places to visit day by day, with photos from Wikipedia and Openverse. The OpenAI call runs in a serverless function, so the key never reaches the browser. Sign in with Google, and each trip is saved to your own account in Supabase.",
+      tags: ["React", "OpenAI API", "Supabase", "Vercel Functions", "Google OAuth"], device: "mon",
       media: { video: "/work/web/trip.mp4", poster: "/work/web/trip.jpg", ar: "16 / 10", bg: "#eef2ff" },
-      link: { href: "https://github.com/LakshyaBagani/AI_TRIP_GENERATOR", label: "View on GitHub" },
+      link: { href: "https://ai-trip-generator-taupe.vercel.app", label: "Visit live site" },
+      repo: "https://github.com/LakshyaBagani/AI_TRIP_GENERATOR",
     },
     {
       kind: "Personal project · Food", title: "Cafe Chain", sub: "Ordering across a chain of cafés",
@@ -197,7 +200,7 @@ const aienv: StackPage = {
       desc: "Add an expense with a group or a few friends, pick who paid, and split it equally, by exact amounts, percentages, shares or adjustments, even across several payers. Balances are tracked person to person, with optional debt simplification, and settle-ups clear them. Friends come from your contacts, and it works offline. React Native and Expo on a Fastify, Drizzle and Neon Postgres API.",
       tags: ["React Native", "Expo", "TypeScript", "Fastify", "Drizzle", "Neon Postgres"], device: "phone",
       media: { video: "/work/app/hisaab.mp4", poster: "/work/app/hisaab.jpg", bg: "#f4f6f2", sbar: "#18241f" },
-      link: { href: "https://github.com/LakshyaBagani/hisaab", label: "View on GitHub" },
+      link: { href: "https://github.com/LakshyaBagani/Hisaab", label: "View on GitHub" },
     },
   ],
 };

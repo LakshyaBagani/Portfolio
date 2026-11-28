@@ -80,21 +80,21 @@ export function FsEliteDocs() {
           <p className="msg out" data-msg="">Should I start the supplements today?</p>
           <p className="msg in" data-msg="">Yes. I&apos;ve added them to your prescription.</p>
         </section>
-        {/* payment */}
+        {/* booking */}
         <section className="scene" style={{ background: "var(--b0)" }}>
-          <h4>Checkout</h4>
+          <h4>Confirm booking</h4>
           <div className="pay" data-paybox="">
             <div className="doc" style={{ display: "flex", alignItems: "center", gap: 12 }}><i style={{ width: 44, height: 44, borderRadius: "50%", background: "linear-gradient(140deg,#e9c7a6,#a8775a)" }} /><div><b style={{ display: "block" }}>Video consultation</b><span style={{ fontSize: 12.5, color: "var(--t2)" }}>Dr. Arjun Mehta · 15 min</span></div></div>
-            <div className="row"><span>Consultation</span><b>₹499</b></div>
-            <div className="row"><span>Platform fee</span><b>₹0</b></div>
-            <div className="row" style={{ borderTop: "1px solid var(--ln)", paddingTop: 12 }}><span style={{ color: "var(--t1)", fontWeight: 700 }}>Total</span><b>₹499</b></div>
-            <div className="paybtn">Pay ₹499 · Razorpay</div>
-            <p style={{ fontSize: 11.5, color: "var(--t3)", textAlign: "center" }}>UPI · Cards · Netbanking</p>
+            <div className="row"><span>Slot</span><b>Today · 6:30 pm</b></div>
+            <div className="row"><span>Type</span><b>Video call</b></div>
+            <div className="row" style={{ borderTop: "1px solid var(--ln)", paddingTop: 12 }}><span style={{ color: "var(--t1)", fontWeight: 700 }}>Consultation fee</span><b>₹499</b></div>
+            <div className="paybtn">Confirm booking</div>
+            <p style={{ fontSize: 11.5, color: "var(--t3)", textAlign: "center" }}>You can join the call from your appointments</p>
           </div>
           <div data-payok="" style={{ position: "absolute", left: 20, right: 20, top: 210, display: "flex", flexDirection: "column", gap: 14, textAlign: "center", opacity: 0 }}>
             <div className="ok">✓</div>
-            <b style={{ fontSize: 22 }}>Payment verified</b>
-            <span style={{ fontSize: 13.5, color: "var(--t2)" }}>Webhook signature confirmed.<br />Your receipt is on its way.</span>
+            <b style={{ fontSize: 22 }}>Booking confirmed</b>
+            <span style={{ fontSize: 13.5, color: "var(--t2)" }}>Dr. Arjun Mehta · Today, 6:30 pm.<br />It&apos;s waiting in your appointments.</span>
           </div>
         </section>
         <i className="ui-tap" />

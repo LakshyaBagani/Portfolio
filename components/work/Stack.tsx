@@ -7,6 +7,7 @@ import { MOCKS } from "./screens";
 import "./stack.css";
 
 const ARROW = (<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>);
+const DOWNLOAD = (<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>);
 const SIG = (<svg aria-hidden="true" focusable="false" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1" /><rect x="5" y="5.5" width="3" height="6.5" rx="1" /><rect x="10" y="3" width="3" height="9" rx="1" /><rect x="15" y="0" width="3" height="12" rx="1" /></svg>);
 const WIFI = (<svg aria-hidden="true" focusable="false" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.2c2.3 0 4.4.9 6 2.4l1.3-1.4A10.6 10.6 0 0 0 8 .3 10.6 10.6 0 0 0 .7 3.2L2 4.6a8.7 8.7 0 0 1 6-2.4Zm0 3.8c1.3 0 2.5.5 3.4 1.3l1.3-1.4A6.8 6.8 0 0 0 8 4.1a6.8 6.8 0 0 0-4.7 1.8l1.3 1.4C5.5 6.5 6.7 6 8 6Zm0 3.7c-.6 0-1.1.2-1.5.6L8 12l1.5-1.7c-.4-.4-.9-.6-1.5-.6Z" /></svg>);
 const BATT = (<svg aria-hidden="true" focusable="false" viewBox="0 0 27 12" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3.2" stroke="currentColor" opacity=".4" /><rect x="2" y="2" width="19" height="8" rx="2" fill="currentColor" /><path d="M24.5 4v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2Z" fill="currentColor" opacity=".45" /></svg>);
@@ -175,7 +176,9 @@ export default function Stack({ projects }: { projects: Project[] }) {
               <ul className="tags">{p.tags.map(t => <li key={t}>{t}</li>)}</ul>
               {p.link
                 ? <div className="actions">
-                    <a className="live" href={p.link.href} target="_blank" rel="noopener noreferrer">{p.link.label} {ARROW}</a>
+                    {p.link.download
+                      ? <a className="live" href={p.link.href} download>{p.link.label} {DOWNLOAD}</a>
+                      : <a className="live" href={p.link.href} target="_blank" rel="noopener noreferrer">{p.link.label} {ARROW}</a>}
                     {p.repo ? <a className="live live--ghost" href={p.repo} target="_blank" rel="noopener noreferrer">View on GitHub {ARROW}</a> : null}
                   </div>
                 : <span className="note">{p.note || "Screen recording of the build"}</span>}

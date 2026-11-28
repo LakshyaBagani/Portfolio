@@ -24,7 +24,8 @@ export type Project = {
   kind: string; title: string; sub: string; desc: string; tags: string[];
   device: "mon" | "phone";
   media: Media;
-  link?: { href: string; label: string };
+  /** download: the link fetches a file (an APK), so it shows a download icon and stays in this tab */
+  link?: { href: string; label: string; download?: boolean };
   /** optional GitHub repo, shown as a second, outlined button beside `link` */
   repo?: string;
   note?: string;
@@ -199,10 +200,11 @@ const aienv: StackPage = {
     },
     {
       kind: "Personal project · Expense splitting", title: "Hisaab", sub: "Split bills with friends and flatmates",
-      desc: "Add an expense with a group or a few friends, pick who paid, and split it equally, by exact amounts, percentages, shares or adjustments, even across several payers. Balances are tracked person to person, with optional debt simplification, and settle-ups clear them. Friends come from your contacts, and it works offline. React Native and Expo on a Fastify, Drizzle and Neon Postgres API.",
+      desc: "Add an expense with a group or a few friends, pick who paid, and split it equally, by exact amounts, percentages, shares or adjustments, even across several payers. Balances are tracked person to person, with optional debt simplification, and settle-ups clear them. Friends come from your contacts, and it works offline. React Native and Expo on a Fastify, Drizzle and Neon Postgres API hosted on Render.",
       tags: ["React Native", "Expo", "TypeScript", "Fastify", "Drizzle", "Neon Postgres"], device: "phone",
       media: { video: "/work/app/hisaab.mp4", poster: "/work/app/hisaab.jpg", bg: "#f4f6f2", sbar: "#18241f" },
-      link: { href: "https://github.com/LakshyaBagani/Hisaab", label: "View on GitHub" },
+      link: { href: "https://github.com/LakshyaBagani/Hisaab/releases/latest/download/hisaab.apk", label: "Download APK", download: true },
+      repo: "https://github.com/LakshyaBagani/Hisaab",
     },
   ],
 };

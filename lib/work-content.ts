@@ -171,10 +171,11 @@ const webdev: StackPage = {
     },
     {
       kind: "Personal project · Food", title: "Cafe Chain", sub: "Ordering across a chain of cafés",
-      desc: "Students pick a campus outlet, fill a cart, order for takeaway or room delivery and track the order. Admins move each order from Pending to Delivered, run offers, and manage menus, wallets, weekly meal plans and analytics across the chain. It runs on an Express, Prisma and Supabase API with JWT auth.",
-      tags: ["React", "TypeScript", "Express", "Prisma", "Supabase"], device: "mon",
+      desc: "Pick a café, browse its menu by category or search, fill a cart, order for takeaway or room delivery and track the order. Owners move each order from Pending to Delivered, run offers, and manage menus, dish photos, wallets and analytics across the chain. It runs on an Express, Prisma and JWT API with Neon Postgres, and dish photos live in Neon object storage.",
+      tags: ["React", "TypeScript", "Express", "Prisma", "Neon Postgres"], device: "mon",
       media: { video: "/work/web/cafechain.mp4", poster: "/work/web/cafechain.jpg", ar: "16 / 10", bg: "#fff8f0" },
-      link: { href: "https://cafe-chain.vercel.app", label: "Visit live site" },
+      link: { href: "https://sojo-cafe.vercel.app", label: "Visit live site" },
+      repo: "https://github.com/LakshyaBagani/CAFE-CHAIN",
     },
   ],
 };

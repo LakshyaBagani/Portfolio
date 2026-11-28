@@ -193,7 +193,7 @@ const aienv: StackPage = {
       desc: "Tap the mic, say the order in Hindi, English or Hinglish, and the bill fills in as you speak. Pick the customer, settle it in cash, UPI, part or due with a reminder, and it lands in the bill ledger. A Tauri 2 app with a Kotlin plugin for 80 mm receipt printing, sharing bill PDFs to WhatsApp, push notifications and self-updates.",
       tags: ["Android", "Tauri 2", "Kotlin", "Rust", "React", "Sarvam AI"], device: "phone",
       media: { video: "/work/app/galla.mp4", poster: "/work/app/galla.jpg", bg: "#f7f5f1", sbar: "#1b1b1b" },
-      link: { href: "https://getgalla.in", label: "Visit live site" },
+      link: { href: "https://github.com/LakshyaBagani/Galla", label: "View on GitHub" },
     },
     {
       kind: "Personal project · Expense splitting", title: "Hisaab", sub: "Split bills with friends and flatmates",

@@ -156,8 +156,8 @@ const webdev: StackPage = {
     },
     {
       kind: "Personal project · Social", title: "One Prompt", sub: "One prompt, posted everywhere",
-      desc: "Write one idea and AI drafts a post for each network, within its character limit: LinkedIn, X, Threads, Instagram and Reddit. Connect accounts once with OAuth, edit the drafts and publish to all of them in one click. Post history and plan quotas run on an Express, Prisma and JWT API.",
-      tags: ["React", "TypeScript", "Express", "Prisma", "OAuth", "OpenRouter"], device: "mon",
+      desc: "Write one idea and AI drafts a post for each network, within its character limit: LinkedIn, X, Threads, Instagram and Reddit. Connect accounts once with OAuth, edit the drafts and publish to all of them in one click. Scheduled posts, post history and plan quotas run on a Go API with PostgreSQL and JWT auth.",
+      tags: ["React", "TypeScript", "Go", "PostgreSQL", "OAuth", "OpenAI API"], device: "mon",
       media: { video: "/work/web/oneprompt.mp4", poster: "/work/web/oneprompt.jpg", ar: "16 / 10", bg: "#0c1018" },
       link: { href: "https://github.com/LakshyaBagani/One-Prompt", label: "View on GitHub" },
     },

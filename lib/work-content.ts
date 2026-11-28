@@ -109,9 +109,10 @@ export const fullstack: StackPage = {
   projects: [
     {
       kind: "Personal project · Health", title: "EliteDocs", sub: "AI-powered doctor consultations",
-      desc: "A consultation platform with JWT auth and role-based access across 15+ endpoints, Gemini summaries of medical reports that cut review time by 60%, WebSocket chat and WebRTC video calls.",
-      tags: ["React", "Spring Boot", "PostgreSQL", "Docker"], device: "phone", media: { mock: "fs-elitedocs" },
-      link: { href: GH, label: "View on GitHub" },
+      desc: "A consultation platform with JWT auth and role-based access across 50+ endpoints, OpenAI summaries of uploaded medical reports that flag out-of-range values, WebSocket chat and WebRTC video calls.",
+      tags: ["React", "Spring Boot", "Neon Postgres", "Docker"], device: "phone", media: { mock: "fs-elitedocs" },
+      link: { href: "https://elitedocs-lemon.vercel.app", label: "Visit live site" },
+      repo: "https://github.com/LakshyaBagani/EliteDocs",
       icon: { glyph: "E", bg: "linear-gradient(145deg,#2f6f5e,#173c33)", fg: "#E9F5EF" },
     },
     {
@@ -149,10 +150,11 @@ const webdev: StackPage = {
     },
     {
       kind: "Personal project · Health", title: "EliteDocs", sub: "Doctor consultations, booking to prescription",
-      desc: "Patients find a doctor by specialty, book a slot and meet them on a WebRTC video call with live chat. After the call the doctor writes the diagnosis and prescription, and the patient can leave a review. It runs on a Spring Boot API with JWT auth, patient and doctor roles, and 50+ endpoints.",
-      tags: ["React", "TypeScript", "Spring Boot", "PostgreSQL", "WebRTC"], device: "mon",
+      desc: "Patients find a doctor by specialty, book a slot and meet them on a WebRTC video call with live chat. Uploaded lab reports get an AI summary that flags out-of-range values for the doctor. After the call the doctor writes the diagnosis and prescription, and the patient can leave a review. It runs on a Spring Boot API with JWT auth, patient and doctor roles, and 50+ endpoints.",
+      tags: ["React", "TypeScript", "Spring Boot", "Neon Postgres", "WebRTC", "OpenAI API"], device: "mon",
       media: { video: "/work/web/elitedocs.mp4", poster: "/work/web/elitedocs.jpg", ar: "16 / 10", bg: "#f5f8ff" },
-      link: { href: "https://github.com/LakshyaBagani/EliteDocs", label: "View on GitHub" },
+      link: { href: "https://elitedocs-lemon.vercel.app", label: "Visit live site" },
+      repo: "https://github.com/LakshyaBagani/EliteDocs",
     },
     {
       kind: "Personal project · Social", title: "One Prompt", sub: "One prompt, posted everywhere",
